@@ -4,7 +4,7 @@ import { isAbsolute, join, resolve } from 'node:path';
 import { createJiti } from 'jiti';
 import type { NemaConfig, ResolvedConfig } from './types.js';
 
-export const DEFAULT_CONFIG: Required<Omit<NemaConfig, 'nav'>> = {
+export const DEFAULT_CONFIG: Required<Omit<NemaConfig, 'nav' | 'contentModel'>> = {
   contentDir: 'docs',
   reviewSlaDays: 180,
   rootExempt: ['index'],
@@ -53,6 +53,7 @@ export async function resolveConfig(
     reviewSlaDays: merged.reviewSlaDays,
     rootExempt: merged.rootExempt,
     baseUrl: merged.baseUrl,
+    contentModel: merged.contentModel,
     nav: merged.nav,
   };
 }

@@ -1,6 +1,8 @@
+// SPDX-License-Identifier: Apache-2.0
+import { type Server, createServer } from 'node:http';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-// SPDX-License-Identifier: Apache-2.0
+import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { formatGateResult } from '@nema/gates';
 import { z } from 'zod';
 import { formatDraftResult, formatPageList, formatSearchHits } from './format.js';
@@ -36,14 +38,11 @@ const modelShape = z.object({
 });
 
 /**
- * Build the Nema MCP server. Read tools expose the corpus; write tools drive
- * the producer loop. Crucially, there is NO tool that promotes a page to
- * `reviewed` — that authority belongs to the human PR approval alone.
+ * The corpus read tools: list / get / provenance / search / check. These need
+ * only a filesystem content source — no git or `gh` — so they are safe to expose
+ * over a network in the read-only server.
  */
-export function createNemaMcpServer(cfg: NemaToolsConfig): McpServer {
-  const tools = new NemaTools(cfg);
-  const server = new McpServer({ name: 'nema', version: '0.1.0' });
-
+function registerReadTools(server: McpServer, tools: NemaTools): void {
   server.registerTool(
     'list_pages',
     {
@@ -66,6 +65,24 @@ export function createNemaMcpServer(cfg: NemaToolsConfig): McpServer {
       const { found, markdown } = await tools.getPage(path);
       return found && markdown != null
         ? text(markdown)
+        : text(`No page found for "${path}". Use list_pages to see valid paths.`, true);
+    },
+  );
+
+  server.registerTool(
+    'get_provenance',
+    {
+      title: 'Get page provenance',
+      description:
+        'Return the trust metadata for a page as JSON: who authored it (ai/human/mixed), the model, ' +
+        'the human reviewer, cited sources, and the status/freshness dates. Complements get_page, ' +
+        'which returns the prose.',
+      inputSchema: { path: z.string().describe('Page path, e.g. guide/intro') },
+    },
+    async ({ path }) => {
+      const { found, view } = await tools.getProvenance(path);
+      return found && view
+        ? text(JSON.stringify(view, null, 2))
         : text(`No page found for "${path}". Use list_pages to see valid paths.`, true);
     },
   );
@@ -97,7 +114,14 @@ export function createNemaMcpServer(cfg: NemaToolsConfig): McpServer {
       return text(formatGateResult(result), !result.ok);
     },
   );
+}
 
+/**
+ * The producer write tools. Crucially, NONE of these can promote a page to
+ * `reviewed` — that authority belongs to the human PR approval alone. They drive
+ * git/`gh`, so they are only registered on the full (local) server.
+ */
+function registerWriteTools(server: McpServer, tools: NemaTools): void {
   server.registerTool(
     'draft_page',
     {
@@ -179,7 +203,29 @@ export function createNemaMcpServer(cfg: NemaToolsConfig): McpServer {
     },
     async (input) => text((await tools.requestReview(input)).message),
   );
+}
 
+/**
+ * Build the full Nema MCP server: read tools expose the corpus; write tools
+ * drive the producer loop. There is NO tool that promotes a page to `reviewed`.
+ */
+export function createNemaMcpServer(cfg: NemaToolsConfig): McpServer {
+  const tools = new NemaTools(cfg);
+  const server = new McpServer({ name: 'nema', version: '0.1.0' });
+  registerReadTools(server, tools);
+  registerWriteTools(server, tools);
+  return server;
+}
+
+/**
+ * Build a read-only Nema MCP server — only the corpus read tools, with no write
+ * or git/`gh` surface. Safe to expose over a network so remote agents can query a
+ * published corpus (and its provenance) without any ability to mutate it.
+ */
+export function createReadOnlyNemaMcpServer(cfg: NemaToolsConfig): McpServer {
+  const tools = new NemaTools(cfg);
+  const server = new McpServer({ name: 'nema', version: '0.1.0' });
+  registerReadTools(server, tools);
   return server;
 }
 
@@ -187,4 +233,45 @@ export function createNemaMcpServer(cfg: NemaToolsConfig): McpServer {
 export async function startStdioServer(cfg: NemaToolsConfig): Promise<void> {
   const server = createNemaMcpServer(cfg);
   await server.connect(new StdioServerTransport());
+}
+
+export interface HttpServerOptions {
+  port: number;
+  /** Expose only the read tools (no write/git surface). */
+  readOnly?: boolean;
+}
+
+/**
+ * Start the Nema MCP server over Streamable HTTP. Stateless with plain JSON
+ * responses, so it is simple to host and to call. Pair `readOnly` with a hosted
+ * deployment to publish a queryable, provenance-bearing corpus to remote agents.
+ *
+ * Security: this serves the corpus to anyone who can reach the port. Front it
+ * with auth (a bearer token / gateway) before exposing a private corpus.
+ */
+export async function startHttpServer(
+  cfg: NemaToolsConfig,
+  opts: HttpServerOptions,
+): Promise<Server> {
+  const mcp = opts.readOnly ? createReadOnlyNemaMcpServer(cfg) : createNemaMcpServer(cfg);
+  const transport = new StreamableHTTPServerTransport({
+    sessionIdGenerator: undefined,
+    enableJsonResponse: true,
+  });
+  await mcp.connect(transport);
+
+  const http = createServer((req, res) => {
+    if (req.method === 'GET' && req.url === '/health') {
+      res.writeHead(200, { 'content-type': 'text/plain' });
+      res.end('ok');
+      return;
+    }
+    transport.handleRequest(req, res).catch((error: unknown) => {
+      if (!res.headersSent) res.writeHead(500, { 'content-type': 'text/plain' });
+      res.end(`MCP transport error: ${String(error)}`);
+    });
+  });
+
+  await new Promise<void>((resolve) => http.listen(opts.port, resolve));
+  return http;
 }

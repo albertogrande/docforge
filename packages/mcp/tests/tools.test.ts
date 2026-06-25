@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import type {
   CommitOptions,
   CreatePullRequestInput,
+  MergeOptions,
   NemaHost,
   PullRequestRef,
 } from '@nema/producer';
@@ -27,6 +28,7 @@ class FakeHost implements NemaHost {
     this.prs.push(input);
     return { number: 7, url: 'https://github.com/x/y/pull/7' };
   };
+  merge = async (_pr: number, _opts?: MergeOptions) => {};
 }
 
 let rootDir: string;
@@ -58,6 +60,14 @@ describe('read tools', () => {
 
     const hits = await tools.search('widgets', 5);
     expect(hits[0]?.path).toBe('index');
+  });
+
+  it('exposes provenance via get_provenance, separate from get_page prose', async () => {
+    const { found, view } = await tools.getProvenance('index');
+    expect(found).toBe(true);
+    expect(view?.status).toBe('draft');
+    expect(view?.provenance?.authored_by).toBe('ai');
+    expect(view?.provenance?.model?.name).toBe('claude-opus-4-8');
   });
 });
 

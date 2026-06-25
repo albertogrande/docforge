@@ -36,7 +36,7 @@ export function createGateContext(source: ContentSource, opts: GateOptions = {})
   return {
     pages: source.pages,
     config: source.config,
-    model: opts.model ?? CONTENT_MODEL,
+    model: opts.model ?? source.config.contentModel ?? CONTENT_MODEL,
     today: toISODateUTC(opts.today ?? new Date()),
   };
 }
