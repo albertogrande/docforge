@@ -1,17 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 import { dirname, relative, resolve } from 'node:path';
-import { findPage, headingSlugs, type Page } from '@docforge/core';
+import { type Page, findPage, headingSlugs } from '@docforge/core';
 import { extractLinks } from '../markdown.js';
 import type { Diagnostic, GateContext } from '../types.js';
 
 const EXTERNAL_RE = /^(https?:|mailto:|tel:|ftp:)/i;
 
 /** Resolve an internal link (route-absolute `/x` or file-relative `../x.md`) to a page. */
-export function resolveLinkTarget(
-  fromPage: Page,
-  linkPath: string,
-  ctx: GateContext,
-): Page | null {
+export function resolveLinkTarget(fromPage: Page, linkPath: string, ctx: GateContext): Page | null {
   if (linkPath.startsWith('/')) return findPage(ctx.pages, linkPath);
   const absTarget = resolve(dirname(fromPage.filePath), linkPath);
   const routeRel = relative(ctx.config.contentRoot, absTarget)

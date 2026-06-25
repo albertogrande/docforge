@@ -8,11 +8,11 @@ import { afterAll, describe, expect, it } from 'vitest';
 import {
   type CommitOptions,
   type CreatePullRequestInput,
-  draftBranchName,
-  flipToReviewed,
   type ForgeHost,
   ProducerEngine,
   type PullRequestRef,
+  draftBranchName,
+  flipToReviewed,
   slugify,
 } from '../src/index.js';
 

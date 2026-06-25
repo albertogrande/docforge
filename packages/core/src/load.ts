@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { ProvenanceSchema } from '@docforge/schema';
 import matter from 'gray-matter';
@@ -79,11 +79,7 @@ export function loadPages(contentRoot: string): Page[] {
 /** Resolve a page by route path, with `/index` fallback. The `.md` suffix and
  * leading slash are tolerated. */
 export function findPage(pages: Page[], path: string): Page | null {
-  const want = path
-    .trim()
-    .replace(/^\//, '')
-    .replace(/\/$/, '')
-    .replace(/\.md$/, '');
+  const want = path.trim().replace(/^\//, '').replace(/\/$/, '').replace(/\.md$/, '');
   return (
     pages.find((p) => p.path === want) ??
     pages.find((p) => p.path === `${want}/index`) ??

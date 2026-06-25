@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-import { createContentSource, type Page } from '@docforge/core';
+import { type Page, createContentSource } from '@docforge/core';
 import { defineCommand } from 'citty';
 import { errOut, out } from '../util.js';
 
@@ -44,10 +44,16 @@ function printChain(page: Page): void {
 }
 
 export const provCommand = defineCommand({
-  meta: { name: 'prov', description: 'Print the provenance chain for a page, or filter the corpus' },
+  meta: {
+    name: 'prov',
+    description: 'Print the provenance chain for a page, or filter the corpus',
+  },
   args: {
     path: { type: 'positional', required: false, description: 'Page path (omit to filter/list)' },
-    filter: { type: 'string', description: 'authored_by=ai | authored_by=human | authored_by=mixed' },
+    filter: {
+      type: 'string',
+      description: 'authored_by=ai | authored_by=human | authored_by=mixed',
+    },
     status: { type: 'string', description: 'Filter by status, e.g. reviewed' },
     dir: { type: 'string', description: 'Repo root (default: cwd)' },
   },

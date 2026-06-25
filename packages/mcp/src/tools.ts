@@ -2,12 +2,12 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import {
   type ContentSource,
-  createContentSource,
   type Page,
-  resolveConfig,
   type SearchHit,
+  createContentSource,
+  resolveConfig,
 } from '@docforge/core';
-import { checkContent, type GateResult } from '@docforge/gates';
+import { type GateResult, checkContent } from '@docforge/gates';
 import {
   type DraftResult,
   type ForgeHost,
@@ -15,7 +15,7 @@ import {
   ProducerEngine,
   type ProposeResult,
 } from '@docforge/producer';
-import { composeContent, MATTER_OPTIONS } from '@docforge/provenance';
+import { MATTER_OPTIONS, composeContent } from '@docforge/provenance';
 import type { ModelInfo, Source } from '@docforge/schema';
 import matter from 'gray-matter';
 
@@ -98,7 +98,9 @@ export class ForgeTools {
   async getPage(path: string): Promise<{ found: boolean; markdown: string | null }> {
     const source = await this.source();
     const page = source.getPage(path);
-    return page ? { found: true, markdown: source.renderMarkdown(page) } : { found: false, markdown: null };
+    return page
+      ? { found: true, markdown: source.renderMarkdown(page) }
+      : { found: false, markdown: null };
   }
 
   async search(query: string, limit = 8): Promise<SearchHit[]> {
@@ -153,13 +155,18 @@ export class ForgeTools {
     let paths = input.paths;
     if (!paths || paths.length === 0) {
       const source = await this.source();
-      paths = source.pages.filter((p) => p.status === 'draft' || p.status === 'stub').map((p) => p.path);
+      paths = source.pages
+        .filter((p) => p.status === 'draft' || p.status === 'stub')
+        .map((p) => p.path);
     }
     if (paths.length === 0) throw new Error('no draft pages to propose');
     return engine.proposeChanges({ paths, title: input.title, summary: input.summary });
   }
 
-  async requestReview(input: { pr?: number; note?: string }): Promise<{ message: string; pr?: number }> {
+  async requestReview(input: { pr?: number; note?: string }): Promise<{
+    message: string;
+    pr?: number;
+  }> {
     const where = input.pr != null ? ` on PR #${input.pr}` : '';
     return {
       pr: input.pr,

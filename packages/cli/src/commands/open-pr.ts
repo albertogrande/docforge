@@ -11,7 +11,10 @@ export const openPrCommand = defineCommand({
   args: {
     title: { type: 'string', required: true },
     summary: { type: 'string', required: true },
-    paths: { type: 'string', description: 'Comma-separated pages to propose (default: all drafts)' },
+    paths: {
+      type: 'string',
+      description: 'Comma-separated pages to propose (default: all drafts)',
+    },
     base: { type: 'string', description: 'Base branch (default: main)' },
     dir: { type: 'string', description: 'Repo root (default: cwd)' },
   },

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 import {
-  composeContent,
   MATTER_OPTIONS,
+  composeContent,
   readProvenanceFromFrontmatter,
   recordTransition,
   seedProvenance,

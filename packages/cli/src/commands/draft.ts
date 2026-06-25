@@ -5,14 +5,27 @@ import { defineCommand } from 'citty';
 import { errOut, makeEngine, out } from '../util.js';
 
 export const draftCommand = defineCommand({
-  meta: { name: 'draft', description: 'Create a new draft page with seeded provenance, then check it' },
+  meta: {
+    name: 'draft',
+    description: 'Create a new draft page with seeded provenance, then check it',
+  },
   args: {
-    path: { type: 'string', required: true, description: 'Route path without .md, e.g. guide/intro' },
+    path: {
+      type: 'string',
+      required: true,
+      description: 'Route path without .md, e.g. guide/intro',
+    },
     title: { type: 'string', required: true },
     body: { type: 'string', description: 'Markdown body (or use --body-file)' },
     'body-file': { type: 'string', description: 'Read the body from a file' },
-    diataxis: { type: 'string', description: 'tutorial | how-to | reference | explanation | overview' },
-    'model-name': { type: 'string', description: 'Authoring model id (required for AI authorship)' },
+    diataxis: {
+      type: 'string',
+      description: 'tutorial | how-to | reference | explanation | overview',
+    },
+    'model-name': {
+      type: 'string',
+      description: 'Authoring model id (required for AI authorship)',
+    },
     'model-vendor': { type: 'string' },
     dir: { type: 'string', description: 'Repo root (default: cwd)' },
   },
@@ -33,7 +46,10 @@ export const draftCommand = defineCommand({
       body,
       frontmatter: args.diataxis ? { diataxis: String(args.diataxis) } : undefined,
       model: args['model-name']
-        ? { name: String(args['model-name']), vendor: args['model-vendor'] ? String(args['model-vendor']) : undefined }
+        ? {
+            name: String(args['model-name']),
+            vendor: args['model-vendor'] ? String(args['model-vendor']) : undefined,
+          }
         : undefined,
     });
     out(`Drafted ${res.path} -> ${res.filePath}`);

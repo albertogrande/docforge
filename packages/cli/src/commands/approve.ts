@@ -6,7 +6,8 @@ import { makeEngine, out } from '../util.js';
 export const approveCommand = defineCommand({
   meta: {
     name: 'approve',
-    description: 'Promote a page draft → reviewed (run by the approval Action after a human approves)',
+    description:
+      'Promote a page draft → reviewed (run by the approval Action after a human approves)',
   },
   args: {
     path: { type: 'string', required: true, description: 'Route path of the approved page' },

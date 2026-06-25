@@ -9,7 +9,7 @@ import type {
   PullRequestRef,
 } from '@docforge/producer';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { createForgeMcpServer, ForgeTools } from '../src/index.js';
+import { ForgeTools, createForgeMcpServer } from '../src/index.js';
 
 const CLOCK = () => new Date('2026-06-25T12:00:00Z');
 

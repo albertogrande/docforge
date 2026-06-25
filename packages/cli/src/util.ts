@@ -27,7 +27,5 @@ export async function makeEngine(
 /** Route paths of all pages currently in `draft`/`stub` (the proposable set). */
 export async function draftPaths(rootDir: string): Promise<string[]> {
   const source = await createContentSource(rootDir);
-  return source.pages
-    .filter((p) => p.status === 'draft' || p.status === 'stub')
-    .map((p) => p.path);
+  return source.pages.filter((p) => p.status === 'draft' || p.status === 'stub').map((p) => p.path);
 }

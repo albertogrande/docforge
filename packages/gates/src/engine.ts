@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-import { type ContentSource, createContentSource, type ForgeConfig } from '@docforge/core';
+import { type ContentSource, type ForgeConfig, createContentSource } from '@docforge/core';
 import { CONTENT_MODEL, type ContentModel } from '@docforge/schema';
 import { draftNotReviewedRules } from './rules/draft-not-reviewed.js';
 import { footnoteRules } from './rules/footnotes.js';
-import { frontmatterRules } from './rules/frontmatter.js';
 import { freshnessRules } from './rules/freshness.js';
+import { frontmatterRules } from './rules/frontmatter.js';
 import { linkRules } from './rules/links.js';
 import { provenanceRules } from './rules/provenance.js';
 import { reachabilityRules } from './rules/reachability.js';

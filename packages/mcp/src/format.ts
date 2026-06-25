@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 import type { SearchHit } from '@docforge/core';
-import { type DraftResult } from '@docforge/producer';
+import type { DraftResult } from '@docforge/producer';
 import type { PageSummary } from './tools.js';
 
 export function formatPageList(pages: PageSummary[]): string {
   if (pages.length === 0) return 'No pages found.';
   return pages
-    .map((p) => `- ${p.path} — ${p.title} [status=${p.status || '?'} diataxis=${p.diataxis ?? '?'}]`)
+    .map(
+      (p) => `- ${p.path} — ${p.title} [status=${p.status || '?'} diataxis=${p.diataxis ?? '?'}]`,
+    )
     .join('\n');
 }
 

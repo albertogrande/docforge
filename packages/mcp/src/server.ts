@@ -4,7 +4,12 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
 import { formatDraftResult, formatPageList, formatSearchHits } from './format.js';
-import { type DraftPageInput, ForgeTools, type ForgeToolsConfig, type UpdatePageInput } from './tools.js';
+import {
+  type DraftPageInput,
+  ForgeTools,
+  type ForgeToolsConfig,
+  type UpdatePageInput,
+} from './tools.js';
 
 interface ToolText {
   [x: string]: unknown;
@@ -69,13 +74,15 @@ export function createForgeMcpServer(cfg: ForgeToolsConfig): McpServer {
     'search',
     {
       title: 'Search the docs',
-      description: 'Full-text BM25 search. Returns best-matching pages with a snippet and a deep-link anchor.',
+      description:
+        'Full-text BM25 search. Returns best-matching pages with a snippet and a deep-link anchor.',
       inputSchema: {
         query: z.string().describe('Search terms'),
         limit: z.number().int().min(1).max(25).optional().describe('Max results (default 8)'),
       },
     },
-    async ({ query, limit }) => text(formatSearchHits(await tools.search(query, limit ?? 8), query)),
+    async ({ query, limit }) =>
+      text(formatSearchHits(await tools.search(query, limit ?? 8), query)),
   );
 
   server.registerTool(
@@ -166,7 +173,8 @@ export function createForgeMcpServer(cfg: ForgeToolsConfig): McpServer {
     'request_review',
     {
       title: 'Request human review',
-      description: 'Signal that a draft PR is ready for human review. This does not and cannot approve.',
+      description:
+        'Signal that a draft PR is ready for human review. This does not and cannot approve.',
       inputSchema: { pr: z.number().int().optional(), note: z.string().optional() },
     },
     async (input) => text((await tools.requestReview(input)).message),

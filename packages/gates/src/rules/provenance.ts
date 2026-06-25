@@ -1,6 +1,6 @@
+import { verifyProvenance } from '@docforge/provenance';
 // SPDX-License-Identifier: Apache-2.0
 import { ProvenanceSchema } from '@docforge/schema';
-import { verifyProvenance } from '@docforge/provenance';
 import type { Diagnostic, GateContext } from '../types.js';
 
 /**

@@ -13,11 +13,10 @@ async function forge(...rawArgs: string[]): Promise<string> {
   captured = '';
   const original = process.stdout.write.bind(process.stdout);
   process.exitCode = 0;
-  // @ts-expect-error narrow override for capture
-  process.stdout.write = (chunk: string) => {
+  process.stdout.write = ((chunk: string) => {
     captured += chunk;
     return true;
-  };
+  }) as typeof process.stdout.write;
   try {
     await runCommand(main, { rawArgs });
   } finally {

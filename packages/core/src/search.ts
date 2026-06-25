@@ -4,7 +4,11 @@ import type { Page, SearchHit } from './types.js';
 
 /** Tokenize to lowercase `[a-z0-9]+` runs. */
 export function tokenize(text: string): string[] {
-  return String(text).toLowerCase().match(/[a-z0-9]+/g) ?? [];
+  return (
+    String(text)
+      .toLowerCase()
+      .match(/[a-z0-9]+/g) ?? []
+  );
 }
 
 const HEADING_RE = /^#{1,6}\s+(.+)$/gm;

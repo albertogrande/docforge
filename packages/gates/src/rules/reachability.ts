@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 import { extractLinks } from '../markdown.js';
-import { resolveLinkTarget } from './links.js';
 import type { Diagnostic, GateContext } from '../types.js';
+import { resolveLinkTarget } from './links.js';
 
 const EXTERNAL_RE = /^(https?:|mailto:|tel:|ftp:)/i;
 
