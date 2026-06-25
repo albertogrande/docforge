@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 export * from './config.js';
+export * from './llms.js';
 export * from './load.js';
 export * from './nav.js';
 export * from './provenance-view.js';

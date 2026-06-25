@@ -61,12 +61,16 @@ describe('provenanceHeaders', () => {
   });
 
   it('strips non-ASCII so values are always legal HTTP headers', () => {
-    const headers = provenanceHeaders(provenanceView(page(), { ...aiProv, model: { name: 'modèl–✓x' } }));
+    const headers = provenanceHeaders(
+      provenanceView(page(), { ...aiProv, model: { name: 'modèl–✓x' } }),
+    );
     expect(headers['X-Forge-Model']).toBe('modlx');
   });
 
   it('includes only the status header when there is no provenance', () => {
-    const headers = provenanceHeaders(provenanceView(page({ status: 'draft', frontmatter: {} }), null));
+    const headers = provenanceHeaders(
+      provenanceView(page({ status: 'draft', frontmatter: {} }), null),
+    );
     expect(headers).toEqual({ 'X-Forge-Status': 'draft' });
   });
 });
