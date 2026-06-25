@@ -46,25 +46,34 @@ interface Indexed {
   len: number;
 }
 
-/**
- * BM25 full-text search over pages, with the title weighted (counted twice).
- * Standard parameters k1=1.5, b=0.75. Returns hits sorted by descending score,
- * each with a snippet and a deep-link anchor.
- */
-export function search(pages: Page[], query: string, limit = 8): SearchHit[] {
-  const terms = [...new Set(tokenize(query))];
-  if (terms.length === 0) return [];
+/** A prebuilt BM25 index over a corpus — build once, query many times. */
+export interface SearchIndex {
+  docs: Indexed[];
+  avgLen: number;
+}
 
+/** Tokenize + tally every page once. This is the expensive part of search. */
+export function buildSearchIndex(pages: Page[]): SearchIndex {
   const docs: Indexed[] = pages.map((page) => {
     const tokens = tokenize(`${page.title} ${page.title} ${page.body}`);
     const tf = new Map<string, number>();
     for (const tok of tokens) tf.set(tok, (tf.get(tok) ?? 0) + 1);
     return { page, tf, len: tokens.length };
   });
+  const avgLen = docs.reduce((s, d) => s + d.len, 0) / (docs.length || 1);
+  return { docs, avgLen };
+}
+
+/**
+ * Query a prebuilt index. BM25 with the title weighted (counted twice), standard
+ * parameters k1=1.5, b=0.75; hits sorted by descending score, each with a snippet
+ * and a deep-link anchor.
+ */
+export function searchIndex({ docs, avgLen }: SearchIndex, query: string, limit = 8): SearchHit[] {
+  const terms = [...new Set(tokenize(query))];
+  if (terms.length === 0) return [];
 
   const n = docs.length;
-  const avgLen = docs.reduce((s, d) => s + d.len, 0) / (n || 1);
-
   const idf = new Map<string, number>();
   for (const t of terms) {
     const df = docs.filter((d) => d.tf.has(t)).length;
@@ -101,4 +110,9 @@ export function search(pages: Page[], query: string, limit = 8): SearchHit[] {
 
   results.sort((a, b) => b.score - a.score);
   return results.slice(0, limit);
+}
+
+/** BM25 search over pages — builds a one-shot index and queries it. */
+export function search(pages: Page[], query: string, limit = 8): SearchHit[] {
+  return searchIndex(buildSearchIndex(pages), query, limit);
 }
