@@ -30,6 +30,40 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@22.20.0)
 
+  packages/cli:
+    dependencies:
+      '@docforge/core':
+        specifier: workspace:*
+        version: link:../core
+      '@docforge/gates':
+        specifier: workspace:*
+        version: link:../gates
+      '@docforge/mcp':
+        specifier: workspace:*
+        version: link:../mcp
+      '@docforge/producer':
+        specifier: workspace:*
+        version: link:../producer
+      '@docforge/provenance':
+        specifier: workspace:*
+        version: link:../provenance
+      '@docforge/schema':
+        specifier: workspace:*
+        version: link:../schema
+      citty:
+        specifier: ^0.1.6
+        version: 0.1.6
+    devDependencies:
+      tsup:
+        specifier: ^8.3.5
+        version: 8.5.1(jiti@2.7.0)(postcss@8.5.15)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@22.20.0)
+
   packages/core:
     dependencies:
       '@docforge/schema':
@@ -959,6 +993,9 @@ packages:
   chokidar@4.0.3:
     resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
     engines: {node: '>= 14.16.0'}
+
+  citty@0.1.6:
+    resolution: {integrity: sha512-tskPPKEs8D2KPafUypv2gxwJP8h/OaJmC82QQGGDQcHvXX43xF2VDACcJVmZ0EuSxkpO9Kc4MlrA3q0+FG58AQ==}
 
   commander@4.1.1:
     resolution: {integrity: sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==}
@@ -2467,6 +2504,10 @@ snapshots:
   chokidar@4.0.3:
     dependencies:
       readdirp: 4.1.2
+
+  citty@0.1.6:
+    dependencies:
+      consola: 3.4.2
 
   commander@4.1.1: {}
 
