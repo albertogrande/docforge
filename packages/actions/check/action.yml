@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Forge Check
+description: Run all Forge gates (forge check) against a docs corpus.
+inputs:
+  path:
+    description: Repo root or content root to check
+    required: false
+    default: "."
+runs:
+  using: composite
+  steps:
+    - name: forge check
+      shell: bash
+      run: npx --yes @docforge/cli check "${{ inputs.path }}"

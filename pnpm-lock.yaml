@@ -30,6 +30,43 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@22.20.0)
 
+  examples/minimal:
+    devDependencies:
+      '@docforge/gates':
+        specifier: workspace:*
+        version: link:../../packages/gates
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@22.20.0)
+
+  packages/actions:
+    dependencies:
+      '@docforge/core':
+        specifier: workspace:*
+        version: link:../core
+      '@docforge/gates':
+        specifier: workspace:*
+        version: link:../gates
+      '@docforge/producer':
+        specifier: workspace:*
+        version: link:../producer
+      '@docforge/provenance':
+        specifier: workspace:*
+        version: link:../provenance
+      '@docforge/schema':
+        specifier: workspace:*
+        version: link:../schema
+    devDependencies:
+      tsup:
+        specifier: ^8.3.5
+        version: 8.5.1(jiti@2.7.0)(postcss@8.5.15)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.9(@types/node@22.20.0)
+
   packages/adapter-fumadocs:
     dependencies:
       '@docforge/adapter-kit':

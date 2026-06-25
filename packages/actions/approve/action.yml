@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Forge Approve
+description: >
+  On an approved pull_request_review, promote the PR's draft pages to reviewed
+  (freshness dates, reviewed_by, a reviewed transition + provenance trailer) and
+  merge. This is the only path by which a page becomes reviewed.
+runs:
+  using: node20
+  main: ../dist/approve-action.js

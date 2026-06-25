@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Forge Freshness
+description: >
+  Freshness watch — runs forge check on a schedule so that overdue reviewed
+  pages (review_by < today) fail loudly and can be re-reviewed.
+inputs:
+  path:
+    description: Repo root or content root to check
+    required: false
+    default: "."
+runs:
+  using: composite
+  steps:
+    - name: forge check (freshness SLA enforced)
+      shell: bash
+      run: npx --yes @docforge/cli check "${{ inputs.path }}"
