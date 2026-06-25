@@ -26,3 +26,5 @@ This page is a **draft** — authored by an agent, not yet human-reviewed. Its b
 4. An Action flips `draft → reviewed` and records the transition.
 
 Return to the [overview](index.md) or read the [Reference](reference.md).
+
+See also [Core concepts](concepts.md).
