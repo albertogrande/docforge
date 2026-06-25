@@ -16,7 +16,8 @@ Sign off every commit:
 git commit -s -m "feat(core): add nav builder"
 ```
 
-This appends a `Signed-off-by: Your Name <you@example.com>` trailer. CI enforces it.
+This appends a `Signed-off-by: Your Name <you@example.com>` trailer. Please sign off every commit
+(a DCO check is on the alpha roadmap; for now it is expected but not yet machine-enforced).
 
 ## The `ee/` boundary
 
@@ -26,8 +27,8 @@ tier. Do not contribute code to `ee/`; PRs touching it will be declined.
 
 ## Commit conventions
 
-- **[Conventional Commits](https://www.conventionalcommits.org/)** — `type(scope): subject`.
-  Enforced by commitlint.
+- **[Conventional Commits](https://www.conventionalcommits.org/)** — `type(scope): subject`. We
+  follow this convention; it is not yet machine-enforced (commitlint is on the roadmap).
 - Add a **[Changeset](https://github.com/changesets/changesets)** for any change that affects a
   published package: `pnpm changeset`.
 

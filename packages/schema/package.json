@@ -1,9 +1,24 @@
 {
   "name": "@docforge/schema",
-  "version": "0.0.0",
+  "version": "0.1.0-alpha.0",
   "description": "Forge SSOT content model + Zod schema + provenance shapes",
   "license": "Apache-2.0",
   "type": "module",
+  "author": "Alberto Grande",
+  "homepage": "https://github.com/albertogrande/docforge#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/albertogrande/docforge.git",
+    "directory": "packages/schema"
+  },
+  "bugs": {
+    "url": "https://github.com/albertogrande/docforge/issues"
+  },
+  "keywords": ["documentation", "docs-as-code", "ai", "agents", "provenance", "mcp"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

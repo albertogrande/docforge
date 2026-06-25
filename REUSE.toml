@@ -1,7 +1,7 @@
 version = 1
 SPDX-PackageName = "forge"
 SPDX-PackageSupplier = "The Forge Authors"
-SPDX-PackageDownloadLocation = "https://github.com/docforge/forge"
+SPDX-PackageDownloadLocation = "https://github.com/albertogrande/docforge"
 
 [[annotations]]
 path = [

@@ -1,9 +1,24 @@
 {
   "name": "@docforge/mcp",
-  "version": "0.0.0",
+  "version": "0.1.0-alpha.0",
   "description": "Forge MCP server: read tools + write tools (draft/update/propose/check/request_review)",
   "license": "Apache-2.0",
   "type": "module",
+  "author": "Alberto Grande",
+  "homepage": "https://github.com/albertogrande/docforge#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/albertogrande/docforge.git",
+    "directory": "packages/mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/albertogrande/docforge/issues"
+  },
+  "keywords": ["documentation", "docs-as-code", "ai", "agents", "provenance", "mcp"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
   "bin": {
     "docforge-mcp": "./dist/bin.js"
   },

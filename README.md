@@ -2,8 +2,9 @@
 
 # Forge
 
-> **Name is a placeholder.** Working scope `@docforge/*`, CLI binary `forge`. The real
-> name will be chosen (npm + GitHub org + domain checked) before the first publish.
+> **Alpha — source-only.** Clone and build it (`pnpm install && pnpm build`); not yet published
+> to npm. The name (`Forge` / `docforge` / the `@docforge/*` package scope) is **provisional** and
+> may change before 0.1.0. APIs are unstable. Feedback and issues very welcome.
 
 **Forge is an open-source, AI-native documentation platform** where agents are the primary
 producers and consumers of content and **humans are the approval gate**. Docs-as-product:
@@ -49,7 +50,9 @@ a renderer. Only `adapter-fumadocs` and `apps/docs` touch React/Next.
 
 ## Status
 
-**v0.1 — pre-release, under active construction.** See [the build plan](sharded-roaming-valiant.md).
+**v0.1 alpha — source-only, not on npm yet.** The engine is feature-complete and green (tests,
+lint, typecheck, build); the producer loop runs end to end. Expect breaking changes. See
+[the build plan](sharded-roaming-valiant.md).
 
 ## Development
 
@@ -60,7 +63,7 @@ pnpm test
 pnpm check     # lint + typecheck + test + build
 ```
 
-Requires Node 22+ and pnpm 9+.
+Requires Node 22+ and pnpm (the repo pins `pnpm@11` via `packageManager`; Corepack will use it).
 
 ## License
 

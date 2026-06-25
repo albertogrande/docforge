@@ -1,9 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 name: Release
 
+# DORMANT for the source-only alpha: manual trigger only, so a push to main can
+# never auto-publish. To enable npm publishing later: restore the `push` trigger
+# below, add the NPM_TOKEN secret, and run `pnpm changeset pre enter alpha`.
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
+  # push:
+  #   branches: [main]
 
 permissions:
   contents: write
