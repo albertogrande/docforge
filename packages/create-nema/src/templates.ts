@@ -6,9 +6,9 @@ export interface TemplateOptions {
 }
 
 /**
- * The files a new Forge docs repo starts with — a working producer loop on the
+ * The files a new Nema docs repo starts with — a working producer loop on the
  * published packages. Pure: returns a `path → content` map with no I/O, so it is
- * trivially testable. The generated `forge check` workflow is the load-bearing
+ * trivially testable. The generated `nema check` workflow is the load-bearing
  * piece: its `draft-pages-not-reviewed` gate makes self-promotion impossible.
  */
 export function templates(opts: TemplateOptions): Record<string, string> {
@@ -18,20 +18,20 @@ export function templates(opts: TemplateOptions): Record<string, string> {
     private: true,
     type: 'module',
     scripts: {
-      check: 'forge check',
-      draft: 'forge draft',
-      'open-pr': 'forge open-pr',
+      check: 'nema check',
+      draft: 'nema draft',
+      'open-pr': 'nema open-pr',
     },
     devDependencies: {
-      '@docforge/cli': '^0.1.0-alpha.0',
+      '@nema/cli': '^0.1.0-alpha.0',
     },
   };
 
   return {
-    'docforge.config.ts': `// SPDX-License-Identifier: Apache-2.0
-import type { ForgeConfig } from '@docforge/core';
+    'nema.config.ts': `// SPDX-License-Identifier: Apache-2.0
+import type { NemaConfig } from '@nema/core';
 
-const config: ForgeConfig = {
+const config: NemaConfig = {
   contentDir: 'docs',
   reviewSlaDays: 180,
 };
@@ -45,12 +45,12 @@ status: draft
 
 # Home
 
-Welcome to your Forge docs. Draft new pages through the producer loop:
-\`forge draft\` (or the MCP write-tools) → \`forge open-pr\` → human approval.
+Welcome to your Nema docs. Draft new pages through the producer loop:
+\`nema draft\` (or the MCP write-tools) → \`nema open-pr\` → human approval.
 `,
     'package.json': `${JSON.stringify(pkg, null, 2)}\n`,
-    '.github/workflows/forge-check.yml': `# SPDX-License-Identifier: Apache-2.0
-name: forge check
+    '.github/workflows/nema-check.yml': `# SPDX-License-Identifier: Apache-2.0
+name: nema check
 on:
   pull_request:
   push:
@@ -69,14 +69,14 @@ jobs:
     '.gitignore': 'node_modules\n',
     'README.md': `# ${opts.name}
 
-Governed documentation, powered by [Forge](https://github.com/albertogrande/docforge).
+Governed documentation, powered by [Nema](https://github.com/albertogrande/docforge).
 
 ## The producer loop
 
 1. An agent **drafts** a page — \`npm run draft\` or the MCP write-tools — writing \`status: draft\`
    with a seeded provenance block, then self-checks against the gates.
-2. **Propose** — \`forge open-pr\` opens a PR labeled \`forge:draft\`.
-3. **CI** runs \`forge check\` (the \`forge check\` workflow in this repo) — every gate, including
+2. **Propose** — \`nema open-pr\` opens a PR labeled \`nema:draft\`.
+3. **CI** runs \`nema check\` (the \`nema check\` workflow in this repo) — every gate, including
    \`draft-pages-not-reviewed\`, which makes it impossible to publish an unreviewed page as trusted.
 4. **A human approves** the PR. That approval is the only path to \`reviewed\`.
 
@@ -92,7 +92,7 @@ npm run check          # run the gates
 Point an MCP-capable agent at this repo:
 
 \`\`\`sh
-claude mcp add forge -- npx -y @docforge/cli mcp .
+claude mcp add nema -- npx -y @nema/cli mcp .
 \`\`\`
 
 The agent can list, search, read, and **draft** pages — but it cannot promote a page to

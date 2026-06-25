@@ -90,7 +90,7 @@ export async function runApproveAction(env: NodeJS.ProcessEnv = process.env): Pr
 
   const branch = event.pull_request?.head?.ref ?? (await host.currentBranch());
   await host.push(branch);
-  // The promotion commit is pushed under FORGE_PROMOTE_TOKEN (a PAT/App token), so —
+  // The promotion commit is pushed under NEMA_PROMOTE_TOKEN (a PAT/App token), so —
   // unlike a GITHUB_TOKEN-authored push — it re-triggers CI. We then enable auto-merge,
   // which completes the squash merge through normal branch protection once those required
   // checks pass. No `--admin`, no bypass: a human approval AND a green promotion build are

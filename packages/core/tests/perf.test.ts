@@ -7,7 +7,7 @@ import { createContentSource } from '../src/index.js';
 
 const roots: string[] = [];
 function corpus(n: number): string {
-  const root = mkdtempSync(join(tmpdir(), 'forge-perf-'));
+  const root = mkdtempSync(join(tmpdir(), 'nema-perf-'));
   roots.push(root);
   const docs = join(root, 'docs');
   mkdirSync(docs, { recursive: true });

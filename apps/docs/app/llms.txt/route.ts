@@ -1,15 +1,15 @@
 import { getSource } from '@/lib/source';
 // SPDX-License-Identifier: Apache-2.0
-import { buildLlmsIndex } from '@docforge/core';
+import { buildLlmsIndex } from '@nema/core';
 
 export const dynamic = 'force-static';
 
 export async function GET() {
   const source = await getSource();
   const body = buildLlmsIndex(source, {
-    title: 'Forge Docs',
+    title: 'Nema Docs',
     description:
-      'Documentation authored through the Forge producer loop — every page carries provenance.',
+      'Documentation authored through the Nema producer loop — every page carries provenance.',
   });
   return new Response(body, { headers: { 'content-type': 'text/plain; charset=utf-8' } });
 }

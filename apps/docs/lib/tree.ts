@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-import type { NavNode } from '@docforge/core';
+import type { NavNode } from '@nema/core';
 import type * as PageTree from 'fumadocs-core/page-tree';
 import { getSource } from './source';
 
@@ -21,7 +21,7 @@ function toNodes(nodes: NavNode[]): PageTree.Node[] {
   });
 }
 
-/** Build the Fumadocs page tree from the Forge nav (renderer-agnostic core data). */
+/** Build the Fumadocs page tree from the Nema nav (renderer-agnostic core data). */
 export async function getPageTree(): Promise<PageTree.Root> {
   const source = await getSource();
   return { name: 'Documentation', children: toNodes(source.nav) };

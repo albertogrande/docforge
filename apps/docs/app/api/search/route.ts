@@ -9,7 +9,7 @@ function docUrl(path: string): string {
 }
 
 /**
- * Reader-facing search: serves the Forge BM25 index (the same one the MCP
+ * Reader-facing search: serves the Nema BM25 index (the same one the MCP
  * `search` tool uses) in the shape Fumadocs' default search dialog expects, so
  * the `Cmd/Ctrl+K` UI is backed by our engine rather than a duplicate index.
  */

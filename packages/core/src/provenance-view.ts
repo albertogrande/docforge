@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-import type { Provenance } from '@docforge/schema';
+import type { Provenance } from '@nema/schema';
 import type { Page } from './types.js';
 
 /**
@@ -38,17 +38,17 @@ export function provenanceView(page: Page, provenance: Provenance | null): Prove
  * the JSON body — never a header value.
  */
 export function provenanceHeaders(view: ProvenanceView): Record<string, string> {
-  const headers: Record<string, string> = { 'X-Forge-Status': asciiHeader(view.status) };
+  const headers: Record<string, string> = { 'X-Nema-Status': asciiHeader(view.status) };
   const prov = view.provenance;
   if (prov) {
-    headers['X-Forge-Authored-By'] = asciiHeader(prov.authored_by);
-    if (prov.model?.name) headers['X-Forge-Model'] = asciiHeader(prov.model.name);
+    headers['X-Nema-Authored-By'] = asciiHeader(prov.authored_by);
+    if (prov.model?.name) headers['X-Nema-Model'] = asciiHeader(prov.model.name);
     if (prov.reviewed_by?.login) {
-      headers['X-Forge-Reviewed-By'] = asciiHeader(prov.reviewed_by.login);
+      headers['X-Nema-Reviewed-By'] = asciiHeader(prov.reviewed_by.login);
     }
   }
-  if (view.last_reviewed) headers['X-Forge-Last-Reviewed'] = view.last_reviewed;
-  if (view.review_by) headers['X-Forge-Review-By'] = view.review_by;
+  if (view.last_reviewed) headers['X-Nema-Last-Reviewed'] = view.last_reviewed;
+  if (view.review_by) headers['X-Nema-Review-By'] = view.review_by;
   return headers;
 }
 

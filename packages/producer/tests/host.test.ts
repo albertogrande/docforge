@@ -27,7 +27,7 @@ describe('ghMergeArgs', () => {
 });
 
 describe('LocalGitHost.merge', () => {
-  it('refuses to merge (no forge PR surface)', async () => {
+  it('refuses to merge (no nema PR surface)', async () => {
     await expect(new LocalGitHost('/tmp').merge(1)).rejects.toThrow(/cannot merge/i);
   });
 });
@@ -62,8 +62,8 @@ describe('glabMrCreateArgs', () => {
         title: 'T',
         body: 'B',
         base: 'main',
-        head: 'forge/draft/x',
-        labels: ['forge:draft'],
+        head: 'nema/draft/x',
+        labels: ['nema:draft'],
       }),
     ).toEqual([
       'mr',
@@ -73,18 +73,18 @@ describe('glabMrCreateArgs', () => {
       '--description',
       'B',
       '--source-branch',
-      'forge/draft/x',
+      'nema/draft/x',
       '--target-branch',
       'main',
       '--yes',
       '--label',
-      'forge:draft',
+      'nema:draft',
     ]);
   });
 });
 
 describe('GitLabHost', () => {
-  it('implements the ForgeHost surface (create + merge) without engine changes', () => {
+  it('implements the NemaHost surface (create + merge) without engine changes', () => {
     const host = new GitLabHost('/tmp');
     expect(typeof host.createPullRequest).toBe('function');
     expect(typeof host.merge).toBe('function');

@@ -5,8 +5,8 @@ import { join } from 'node:path';
 import type {
   CommitOptions,
   CreatePullRequestInput,
-  ForgeHost,
   MergeOptions,
+  NemaHost,
   PullRequestRef,
 } from '@nema/producer';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';

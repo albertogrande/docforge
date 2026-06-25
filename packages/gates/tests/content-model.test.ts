@@ -2,8 +2,8 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { type ContentSource, type ResolvedConfig, contentSourceFromConfig } from '@docforge/core';
-import { CONTENT_MODEL, type ContentModel } from '@docforge/schema';
+import { type ContentSource, type ResolvedConfig, contentSourceFromConfig } from '@nema/core';
+import { CONTENT_MODEL, type ContentModel } from '@nema/schema';
 import { afterAll, describe, expect, it } from 'vitest';
 import { createGateContext, runGates } from '../src/index.js';
 
@@ -22,7 +22,7 @@ const CUSTOM_MODEL: ContentModel = {
 
 const roots: string[] = [];
 function source(frontmatter: string, contentModel?: ContentModel): ContentSource {
-  const root = mkdtempSync(join(tmpdir(), 'forge-model-'));
+  const root = mkdtempSync(join(tmpdir(), 'nema-model-'));
   roots.push(root);
   const docs = join(root, 'docs');
   mkdirSync(docs, { recursive: true });

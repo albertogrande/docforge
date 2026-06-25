@@ -14,11 +14,11 @@ try {
   for (const f of result.created) process.stdout.write(`  created  ${f}\n`);
   for (const f of result.skipped) process.stdout.write(`  skipped  ${f} (exists, use --force)\n`);
   process.stdout.write(
-    `\n✓ Forge docs scaffolded in ${result.dir}\n\nNext:\n${
+    `\n✓ Nema docs scaffolded in ${result.dir}\n\nNext:\n${
       target === '.' ? '' : `  cd ${target}\n`
     }  npm install\n  npm run check\n`,
   );
 } catch (error) {
-  process.stderr.write(`create-docforge failed: ${(error as Error).message}\n`);
+  process.stderr.write(`create-nema failed: ${(error as Error).message}\n`);
   process.exit(1);
 }

@@ -6,11 +6,11 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { afterAll, describe, expect, it } from 'vitest';
-import { createForgeMcpServer, createReadOnlyForgeMcpServer } from '../src/index.js';
+import { createNemaMcpServer, createReadOnlyNemaMcpServer } from '../src/index.js';
 
 const roots: string[] = [];
 function root(): string {
-  const d = mkdtempSync(join(tmpdir(), 'forge-mcp-ro-'));
+  const d = mkdtempSync(join(tmpdir(), 'nema-mcp-ro-'));
   roots.push(d);
   return d;
 }
@@ -30,12 +30,12 @@ async function toolNames(server: McpServer): Promise<string[]> {
 
 describe('read-only MCP server', () => {
   it('exposes only the corpus read tools — no write/git surface', async () => {
-    const names = await toolNames(createReadOnlyForgeMcpServer({ rootDir: root() }));
+    const names = await toolNames(createReadOnlyNemaMcpServer({ rootDir: root() }));
     expect(names).toEqual(['check', 'get_page', 'get_provenance', 'list_pages', 'search']);
   });
 
   it('the full server additionally exposes the write tools', async () => {
-    const names = await toolNames(createForgeMcpServer({ rootDir: root() }));
+    const names = await toolNames(createNemaMcpServer({ rootDir: root() }));
     for (const w of ['draft_page', 'update_page', 'propose_changes', 'request_review']) {
       expect(names).toContain(w);
     }

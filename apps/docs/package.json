@@ -12,9 +12,9 @@
     "check-docs": "nema check ."
   },
   "dependencies": {
-    "@docforge/adapter-fumadocs": "workspace:*",
-    "@docforge/core": "workspace:*",
-    "@docforge/schema": "workspace:*",
+    "@nema/adapter-fumadocs": "workspace:*",
+    "@nema/core": "workspace:*",
+    "@nema/schema": "workspace:*",
     "fumadocs-core": "^15.8.5",
     "fumadocs-ui": "^15.8.5",
     "marked": "^14.1.4",
@@ -23,7 +23,7 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@docforge/cli": "workspace:*",
+    "@nema/cli": "workspace:*",
     "@tailwindcss/postcss": "^4.3.1",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.1",

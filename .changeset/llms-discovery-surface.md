@@ -1,5 +1,5 @@
 ---
-"@docforge/core": minor
+"@nema/core": minor
 ---
 
 Add `buildLlmsIndex()` / `buildLlmsFull()` (and `LlmsOptions`) to generate `llms.txt` and

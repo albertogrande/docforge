@@ -1,14 +1,14 @@
 {
-  "name": "create-docforge",
+  "name": "create-nema",
   "version": "0.1.0-alpha.0",
-  "description": "Scaffold a new Forge-governed documentation repo",
+  "description": "Scaffold a new Nema-governed documentation repo",
   "license": "Apache-2.0",
   "author": "Alberto Grande",
   "homepage": "https://github.com/albertogrande/docforge#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/albertogrande/docforge.git",
-    "directory": "packages/create-docforge"
+    "directory": "packages/create-nema"
   },
   "bugs": {
     "url": "https://github.com/albertogrande/docforge/issues"
@@ -16,7 +16,7 @@
   "keywords": ["documentation", "docs-as-code", "ai", "agents", "provenance", "scaffold"],
   "type": "module",
   "bin": {
-    "create-docforge": "./dist/index.js"
+    "create-nema": "./dist/index.js"
   },
   "files": ["dist"],
   "publishConfig": {

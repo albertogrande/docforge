@@ -19,7 +19,7 @@ export interface MergeOptions {
   /** Merge strategy. Defaults to 'squash'. */
   method?: 'merge' | 'squash' | 'rebase';
   /**
-   * Enable the forge's auto-merge: complete the merge only once required status
+   * Enable the nema's auto-merge: complete the merge only once required status
    * checks pass. This is how a promotion commit merges WITHOUT bypassing branch
    * protection — we never use an admin override.
    */
@@ -42,7 +42,7 @@ export interface NemaHost {
   push(branch: string, opts?: { setUpstream?: boolean }): Promise<void>;
   createPullRequest(input: CreatePullRequestInput): Promise<PullRequestRef>;
   /**
-   * Merge a pull request through the forge, respecting branch protection.
+   * Merge a pull request through the nema, respecting branch protection.
    * Never bypasses required checks (no admin override); pair with `auto` when
    * the merge must wait for a freshly-triggered CI run on the latest commit.
    */
@@ -153,7 +153,7 @@ export function glabMergeArgs(mr: number, opts: MergeOptions = {}): string[] {
 /**
  * GitLab host: git operations plus merge-request create/merge through the `glab`
  * CLI. Proves the producer engine is forge-agnostic — it touches only the
- * {@link ForgeHost} interface, never a GitHub specific.
+ * {@link NemaHost} interface, never a GitHub specific.
  */
 export class GitLabHost extends LocalGitHost {
   override async createPullRequest(input: CreatePullRequestInput): Promise<PullRequestRef> {

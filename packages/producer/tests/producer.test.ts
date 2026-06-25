@@ -8,8 +8,8 @@ import { afterAll, describe, expect, it } from 'vitest';
 import {
   type CommitOptions,
   type CreatePullRequestInput,
-  type ForgeHost,
   type MergeOptions,
+  type NemaHost,
   ProducerEngine,
   type PullRequestRef,
   draftBranchName,

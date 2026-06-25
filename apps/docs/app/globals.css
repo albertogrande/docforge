@@ -3,8 +3,8 @@
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
 
-/* Forge provenance badge + trust dashboard — carried over from the hand-rolled site. */
-.forge-badge {
+/* Nema provenance badge + trust dashboard — carried over from the hand-rolled site. */
+.nema-badge {
   display: inline-block;
   font-size: 0.75rem;
   padding: 0.15rem 0.55rem;

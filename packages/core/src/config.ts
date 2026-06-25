@@ -4,7 +4,7 @@ import { isAbsolute, join, resolve } from 'node:path';
 import { createJiti } from 'jiti';
 import type { NemaConfig, ResolvedConfig } from './types.js';
 
-export const DEFAULT_CONFIG: Required<Omit<ForgeConfig, 'nav' | 'contentModel'>> = {
+export const DEFAULT_CONFIG: Required<Omit<NemaConfig, 'nav' | 'contentModel'>> = {
   contentDir: 'docs',
   reviewSlaDays: 180,
   rootExempt: ['index'],

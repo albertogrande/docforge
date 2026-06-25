@@ -21,12 +21,12 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
-          # FORGE_PROMOTE_TOKEN: a PAT or GitHub App installation token with
+          # NEMA_PROMOTE_TOKEN: a PAT or GitHub App installation token with
           # contents:write + pull-requests:write, allowed to push to the protected
           # branch. Unlike GITHUB_TOKEN, a push authenticated with it re-triggers CI on
           # the promotion commit, so the auto-merge below waits on a real status check
           # instead of bypassing branch protection with --admin.
-          token: ${{ secrets.FORGE_PROMOTE_TOKEN }}
+          token: ${{ secrets.NEMA_PROMOTE_TOKEN }}
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -43,5 +43,5 @@ jobs:
         env:
           # Same elevated token so `gh pr merge --auto` can enable auto-merge and the
           # promotion push (above) re-triggers CI. Requires repo auto-merge enabled and
-          # branch protection requiring the forge check.
-          GH_TOKEN: ${{ secrets.FORGE_PROMOTE_TOKEN }}
+          # branch protection requiring the nema check.
+          GH_TOKEN: ${{ secrets.NEMA_PROMOTE_TOKEN }}

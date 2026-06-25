@@ -1,5 +1,5 @@
 ---
-"@docforge/core": minor
+"@nema/core": minor
 ---
 
 Cache the content source and memoize the search index. `contentSourceFromConfig` now caches by

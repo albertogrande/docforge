@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-import { startHttpServer, startStdioServer } from '@docforge/mcp';
+import { startHttpServer, startStdioServer } from '@nema/mcp';
 import { defineCommand } from 'citty';
 
 export const mcpCommand = defineCommand({
   meta: {
     name: 'mcp',
-    description: 'Start the Forge MCP server — stdio by default (for `claude mcp add`), or HTTP',
+    description: 'Start the Nema MCP server — stdio by default (for `claude mcp add`), or HTTP',
   },
   args: {
     dir: { type: 'positional', required: false, description: 'Repo root (default: cwd)' },
@@ -23,7 +23,7 @@ export const mcpCommand = defineCommand({
       const readOnly = Boolean(args['read-only']);
       await startHttpServer({ rootDir }, { port, readOnly });
       process.stderr.write(
-        `forge MCP (HTTP${readOnly ? ', read-only' : ''}) on http://localhost:${port}\n`,
+        `nema MCP (HTTP${readOnly ? ', read-only' : ''}) on http://localhost:${port}\n`,
       );
     } else {
       await startStdioServer({ rootDir });

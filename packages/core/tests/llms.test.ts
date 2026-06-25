@@ -34,8 +34,8 @@ function fakeSource(): ContentSource {
 
 describe('buildLlmsIndex', () => {
   it('lists every page with a .md link and a trust annotation', () => {
-    const out = buildLlmsIndex(fakeSource(), { title: 'Forge Docs', description: 'Hi' });
-    expect(out.startsWith('# Forge Docs')).toBe(true);
+    const out = buildLlmsIndex(fakeSource(), { title: 'Nema Docs', description: 'Hi' });
+    expect(out.startsWith('# Nema Docs')).toBe(true);
     expect(out).toContain('> Hi');
     for (const p of pages) expect(out).toContain(`(/md/${p.path})`);
     const bullets = out.split('\n').filter((l) => l.startsWith('- ['));
@@ -51,7 +51,7 @@ describe('buildLlmsIndex', () => {
 
 describe('buildLlmsFull', () => {
   it('concatenates every page body with a provenance stamp', () => {
-    const out = buildLlmsFull(fakeSource(), { title: 'Forge Docs' });
+    const out = buildLlmsFull(fakeSource(), { title: 'Nema Docs' });
     for (const p of pages) {
       expect(out).toContain(renderMarkdown(p));
       expect(out).toContain(`path: ${p.path}`);

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-import type { Provenance } from '@docforge/schema';
+import type { Provenance } from '@nema/schema';
 import { describe, expect, it } from 'vitest';
 import { type Page, provenanceHeaders, provenanceView } from '../src/index.js';
 
@@ -49,12 +49,12 @@ describe('provenanceHeaders', () => {
   it('emits ASCII-safe scalar headers, never the full record', () => {
     const headers = provenanceHeaders(provenanceView(page(), aiProv));
     expect(headers).toMatchObject({
-      'X-Forge-Status': 'reviewed',
-      'X-Forge-Authored-By': 'ai',
-      'X-Forge-Model': 'claude-opus-4-8',
-      'X-Forge-Reviewed-By': 'alice',
-      'X-Forge-Last-Reviewed': '2026-01-01',
-      'X-Forge-Review-By': '2026-07-01',
+      'X-Nema-Status': 'reviewed',
+      'X-Nema-Authored-By': 'ai',
+      'X-Nema-Model': 'claude-opus-4-8',
+      'X-Nema-Reviewed-By': 'alice',
+      'X-Nema-Last-Reviewed': '2026-01-01',
+      'X-Nema-Review-By': '2026-07-01',
     });
     // The structured record is never inlined into a header.
     expect(JSON.stringify(headers)).not.toContain('sources');
@@ -64,13 +64,13 @@ describe('provenanceHeaders', () => {
     const headers = provenanceHeaders(
       provenanceView(page(), { ...aiProv, model: { name: 'modèl–✓x' } }),
     );
-    expect(headers['X-Forge-Model']).toBe('modlx');
+    expect(headers['X-Nema-Model']).toBe('modlx');
   });
 
   it('includes only the status header when there is no provenance', () => {
     const headers = provenanceHeaders(
       provenanceView(page({ status: 'draft', frontmatter: {} }), null),
     );
-    expect(headers).toEqual({ 'X-Forge-Status': 'draft' });
+    expect(headers).toEqual({ 'X-Nema-Status': 'draft' });
   });
 });

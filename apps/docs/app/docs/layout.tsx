@@ -6,11 +6,7 @@ import type { ReactNode } from 'react';
 export default async function DocsRootLayout({ children }: { children: ReactNode }) {
   const tree = await getPageTree();
   return (
-    <DocsLayout
-      tree={tree}
-      nav={{ title: 'Forge Docs' }}
-      links={[{ text: 'Trust', url: '/trust' }]}
-    >
+    <DocsLayout tree={tree} nav={{ title: 'Nema Docs' }} links={[{ text: 'Trust', url: '/trust' }]}>
       {children}
     </DocsLayout>
   );
