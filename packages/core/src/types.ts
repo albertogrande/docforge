@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-import type { Provenance } from '@nema/schema';
+import type { ContentModel, Provenance } from '@docforge/schema';
 
 /** A loaded documentation page. Domain-neutral. */
 export interface Page {
@@ -61,6 +61,8 @@ export interface NemaConfig {
   rootExempt?: string[];
   /** Optional site base URL (used by adapters). */
   baseUrl?: string;
+  /** Custom content model (required fields, enums, dates). Defaults to the bundled SSOT. */
+  contentModel?: ContentModel;
   /** Explicit navigation, as a tree or a builder. Defaults to a path-derived tree. */
   nav?: NavNode[] | ((pages: Page[]) => NavNode[]);
 }
@@ -74,5 +76,7 @@ export interface ResolvedConfig {
   reviewSlaDays: number;
   rootExempt: string[];
   baseUrl: string;
+  /** Resolved content model; gates fall back to the bundled SSOT when unset. */
+  contentModel?: ContentModel;
   nav?: NavNode[] | ((pages: Page[]) => NavNode[]);
 }
