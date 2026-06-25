@@ -1,0 +1,10 @@
+Forge Enterprise Edition — License Placeholder
+
+This is a placeholder license reference for the reserved `ee/` directory. The
+`ee/` directory is empty in the v0.x release line and reserved for a future
+source-available commercial tier. No license is granted for its contents; when
+functionality lands there it will be published under a separate source-available
+license, and it will NOT be covered by the Apache-2.0 license that governs the
+rest of this repository.
+
+Nothing in this file grants any rights.

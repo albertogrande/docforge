@@ -14,12 +14,19 @@ path = [
   "tsconfig.base.json",
   ".changeset/**",
   ".github/**",
+  "**/*.ts",
+  "**/*.tsx",
+  "**/*.mjs",
+  "**/*.css",
   "**/*.md",
   "**/*.yaml",
   "**/*.yml",
   "**/*.json",
   ".gitignore",
   ".npmrc",
+  "**/next-env.d.ts",
+  "**/*.placeholder",
+  "NOTICE",
 ]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 The Forge Authors"

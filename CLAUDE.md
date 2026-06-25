@@ -58,7 +58,7 @@ norm.
   test + build.
 - The engine (`packages/{schema,core,provenance,gates,producer,mcp,cli}`) is renderer-agnostic —
   **never import React/Next there.** Only `adapter-fumadocs` and `apps/docs` may.
-- Every source file starts with `// SPDX-License-Identifier: Apache-2.0`.
+- Every source file starts with an SPDX Apache-2.0 license header comment.
 - Sign commits: `git commit -s`. Conventional Commits. Add a changeset for package-affecting
   changes.
 - Do **not** touch `ee/` — reserved, out of scope.

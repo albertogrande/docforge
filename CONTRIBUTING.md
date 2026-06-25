@@ -49,7 +49,7 @@ pnpm check        # lint + typecheck + test + build — must be green before you
 - TypeScript, ESM-only, `strict` + `noUncheckedIndexedAccess`.
 - [Biome](https://biomejs.dev/) for lint + format: `pnpm lint`, `pnpm format`.
 - [Vitest](https://vitest.dev/) for tests.
-- License headers: every source file carries an `SPDX-License-Identifier: Apache-2.0` header;
+- License headers: every source file carries an SPDX Apache-2.0 license header comment;
   `reuse lint` runs in CI.
 
 ## Reporting security issues
