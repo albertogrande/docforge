@@ -1,0 +1,35 @@
+{
+  "name": "create-docforge",
+  "version": "0.1.0-alpha.0",
+  "description": "Scaffold a new Forge-governed documentation repo",
+  "license": "Apache-2.0",
+  "author": "Alberto Grande",
+  "homepage": "https://github.com/albertogrande/docforge#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/albertogrande/docforge.git",
+    "directory": "packages/create-docforge"
+  },
+  "bugs": {
+    "url": "https://github.com/albertogrande/docforge/issues"
+  },
+  "keywords": ["documentation", "docs-as-code", "ai", "agents", "provenance", "scaffold"],
+  "type": "module",
+  "bin": {
+    "create-docforge": "./dist/index.js"
+  },
+  "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
