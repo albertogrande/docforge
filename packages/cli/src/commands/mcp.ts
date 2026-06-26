@@ -15,15 +15,22 @@ export const mcpCommand = defineCommand({
       type: 'boolean',
       description: 'Expose only the read tools (no write/git) — for a hosted corpus',
     },
+    'auth-token-env': {
+      type: 'string',
+      description:
+        'Env var holding the HTTP bearer token (default NEMA_MCP_TOKEN; unset ⇒ no auth)',
+    },
   },
   async run({ args }) {
     const rootDir = args.dir ? String(args.dir) : process.cwd();
     if (args.http) {
       const port = args.port ? Number(args.port) : 3001;
       const readOnly = Boolean(args['read-only']);
-      await startHttpServer({ rootDir }, { port, readOnly });
+      const tokenEnv = args['auth-token-env'] ? String(args['auth-token-env']) : 'NEMA_MCP_TOKEN';
+      const authToken = process.env[tokenEnv] || undefined;
+      await startHttpServer({ rootDir }, { port, readOnly, authToken });
       process.stderr.write(
-        `nema MCP (HTTP${readOnly ? ', read-only' : ''}) on http://localhost:${port}\n`,
+        `nema MCP (HTTP${readOnly ? ', read-only' : ''}${authToken ? ', authenticated' : ''}) on http://localhost:${port}\n`,
       );
     } else {
       await startStdioServer({ rootDir });

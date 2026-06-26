@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+import { createHash, timingSafeEqual } from 'node:crypto';
 import { type Server, createServer } from 'node:http';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
@@ -287,6 +288,26 @@ export interface HttpServerOptions {
   port: number;
   /** Expose only the read tools (no write/git surface). */
   readOnly?: boolean;
+  /**
+   * Optional bearer token. When set, every HTTP request must send
+   * `Authorization: Bearer <token>` (hashed at startup, compared in constant
+   * time); `/health` stays open. When unset, the corpus is served
+   * unauthenticated and a startup warning is emitted.
+   */
+  authToken?: string;
+}
+
+function sha256(value: string): Buffer {
+  return createHash('sha256').update(value).digest();
+}
+
+/** Constant-time check of an `Authorization: Bearer <token>` header against a token hash. */
+function bearerOk(header: string | undefined, expectedHash: Buffer): boolean {
+  if (!header) return false;
+  const match = /^Bearer\s+(.+)$/i.exec(header.trim());
+  if (!match) return false;
+  const presented = sha256(match[1] ?? '');
+  return presented.length === expectedHash.length && timingSafeEqual(presented, expectedHash);
 }
 
 /**
@@ -308,10 +329,24 @@ export async function startHttpServer(
   });
   await mcp.connect(transport);
 
+  const expectedHash = opts.authToken ? sha256(opts.authToken) : null;
+  if (!expectedHash) {
+    process.stderr.write(
+      'nema MCP (HTTP): no auth token set — the corpus is served to anyone who can reach the ' +
+        'port. Set a bearer token (e.g. nema mcp --http --auth-token-env NEMA_MCP_TOKEN) before ' +
+        'exposing a private corpus.\n',
+    );
+  }
+
   const http = createServer((req, res) => {
     if (req.method === 'GET' && req.url === '/health') {
       res.writeHead(200, { 'content-type': 'text/plain' });
       res.end('ok');
+      return;
+    }
+    if (expectedHash && !bearerOk(req.headers.authorization, expectedHash)) {
+      res.writeHead(401, { 'content-type': 'text/plain', 'www-authenticate': 'Bearer' });
+      res.end('unauthorized');
       return;
     }
     transport.handleRequest(req, res).catch((error: unknown) => {
