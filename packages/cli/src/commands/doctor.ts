@@ -5,18 +5,9 @@ import { join, relative } from 'node:path';
 import { createContentSource, resolveConfig } from '@nema/core';
 import { checkContent } from '@nema/gates';
 import { defineCommand } from 'citty';
+import { governanceChecks } from '../doctor/governance.js';
+import { type Check, MARK } from '../doctor/types.js';
 import { out } from '../util.js';
-
-type Level = 'ok' | 'warn' | 'error';
-
-interface Check {
-  level: Level;
-  label: string;
-  /** Optional remediation, printed indented under the check. */
-  fix?: string;
-}
-
-const MARK: Record<Level, string> = { ok: '✓', warn: '⚠', error: '✗' };
 
 /** Probe a binary; returns its first stdout line, or null if it is missing/errors. */
 function probe(cmd: string, args: string[]): string | null {
@@ -94,10 +85,15 @@ function configCheck(rootDir: string): Check {
 export const doctorCommand = defineCommand({
   meta: {
     name: 'doctor',
-    description: 'Diagnose the environment and repo (Node, git, gh, config, content, gates)',
+    description:
+      'Diagnose the environment, repo, and governance setup (Node/git/gh/config/content/gates + CI scope, promotion gate, branch protection, content model)',
   },
   args: {
     dir: { type: 'positional', required: false, description: 'Repo root (default: cwd)' },
+    'skip-network': {
+      type: 'boolean',
+      description: 'Skip checks that call the gh CLI over the network (branch protection)',
+    },
   },
   async run({ args }) {
     const rootDir = args.dir ? String(args.dir) : process.cwd();
@@ -139,6 +135,11 @@ export const doctorCommand = defineCommand({
         );
       }
     }
+
+    // Governance / operator config the human-approval invariant depends on.
+    checks.push(
+      ...(await governanceChecks(rootDir, { skipNetwork: Boolean(args['skip-network']) })),
+    );
 
     out(`nema doctor — ${rootDir}\n`);
     for (const c of checks) {

@@ -35,9 +35,11 @@
     "@nema/producer": "workspace:*",
     "@nema/provenance": "workspace:*",
     "@nema/schema": "workspace:*",
-    "citty": "^0.1.6"
+    "citty": "^0.1.6",
+    "js-yaml": "^4.1.0"
   },
   "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
