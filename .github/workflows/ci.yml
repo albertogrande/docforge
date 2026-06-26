@@ -69,3 +69,19 @@ jobs:
       # Dogfood: validate the example corpus with our own gates (run the built CLI directly).
       - run: node packages/cli/dist/index.js check examples/minimal
       - run: node packages/cli/dist/index.js check apps/docs
+
+  doctor:
+    name: nema doctor (operator config, advisory)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      # Advisory: surface operator-config drift (CI scope, promotion wiring, SSOT) without
+      # blocking merges yet. Promote to a blocking gate once nema check covers PR-changed pages.
+      - run: node packages/cli/dist/index.js doctor . --skip-network || true
