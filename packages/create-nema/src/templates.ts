@@ -24,6 +24,7 @@ export function templates(opts: TemplateOptions): Record<string, string> {
     },
     devDependencies: {
       '@getnema/cli': '^0.1.0',
+      '@getnema/core': '^0.1.0',
     },
   };
 
