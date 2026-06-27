@@ -1,0 +1,23 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Dependency Review
+
+# On every PR, flag dependencies being added/updated that carry known vulnerabilities
+# or incompatible licenses, before they land on main. Free for public repos.
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    name: dependency review
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          comment-summary-in-pr: on-failure
+          fail-on-severity: high
