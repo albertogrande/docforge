@@ -1,5 +1,39 @@
 # nema
 
+## 0.1.2
+
+### Patch Changes
+
+- 2894302: Fix three first-hour producer-loop footguns:
+
+  - `nema open-pr` now catches an unready repo (no git, no commits, no `origin` remote, or a missing/
+    unauthenticated `gh`) and prints an actionable `help:` hint instead of a raw stack trace, matching
+    the gate diagnostics' teaching style.
+  - `nema open-pr` no longer dies with "nothing to commit, working tree clean" when the draft is
+    already committed — the producer engine detects the clean index and carries the existing HEAD onto
+    the PR branch instead of attempting an empty commit.
+  - `nema draft` without `--model-name` now writes `authored_by: human` (a human is drafting from the
+    CLI) so the page passes the `provenance-consistency` gate. `authored_by: ai` is recorded only when
+    model info is supplied.
+
+- cbb1759: Make a freshly-scaffolded repo pass the product's own `nema doctor`, and give a scaffolded user's
+  agent the rails it was missing:
+
+  - `nema doctor`'s CI-scope check now recognizes the package-manager indirection (`npm run check`,
+    `pnpm check`, `yarn check`) that resolves to `nema check` — so the scaffold's own CI step counts
+    as gated instead of warning "pull requests are not gated".
+  - `create-nema` now ships the human-approval workflow (`.github/workflows/nema-approve.yml`): on a
+    human PR approval it promotes the PR's changed draft pages to `reviewed` via the published
+    `nema approve`, commits the promotion under `NEMA_PROMOTE_TOKEN` (so the merge respects branch
+    protection), and enables auto-merge. This wires doctor's "promotion gate" green.
+  - `create-nema` now ships an agent contract (`AGENTS.md`, plus a `CLAUDE.md` pointer) describing the
+    draft → PR → approve loop and the one invariant: only a human PR approval promotes a page to
+    `reviewed`.
+
+- Updated dependencies [2894302]
+  - @getnema/producer@0.1.1
+  - @getnema/mcp@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes
