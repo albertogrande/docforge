@@ -1,5 +1,12 @@
 # @getnema/mcp
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [2894302]
+  - @getnema/producer@0.1.1
+
 ## 0.1.1
 
 ### Patch Changes
