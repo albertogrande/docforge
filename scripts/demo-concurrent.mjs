@@ -65,7 +65,10 @@ try {
   git('commit', '-qm', 'base corpus');
 
   log('\n[1/3] Slot leasing prevents two live agents clobbering the same page');
-  assert(nema(['claim', 'api/options', '--agent', 'agent-a']).code === 0, 'agent-a claims api/options');
+  assert(
+    nema(['claim', 'api/options', '--agent', 'agent-a']).code === 0,
+    'agent-a claims api/options',
+  );
   assert(
     nema(['claim', 'api/options', '--agent', 'agent-b']).code === 1,
     'agent-b is REFUSED the same page (lease held by agent-a)',
@@ -100,13 +103,19 @@ try {
   git('branch', '-q', '-D', 'nema/draft/agent-b');
   git('checkout', '-q', '-b', 'nema/draft/agent-a');
   write('api/options.md', page('Options', 'agent-a wrote this. Back [home](/index).'));
-  write('index.md', page('Home', 'See [guides](/guides/index), [api](/api/index), [opts](/api/options).'));
+  write(
+    'index.md',
+    page('Home', 'See [guides](/guides/index), [api](/api/index), [opts](/api/options).'),
+  );
   git('add', '-A');
   git('commit', '-qm', 'agent-a: api/options');
   git('checkout', '-q', 'main');
   git('checkout', '-q', '-b', 'nema/draft/agent-b');
   write('api/options.md', page('Options', 'agent-b wrote something ELSE. Back [home](/index).'));
-  write('index.md', page('Home', 'See [guides](/guides/index), [api](/api/index), [opts](/api/options).'));
+  write(
+    'index.md',
+    page('Home', 'See [guides](/guides/index), [api](/api/index), [opts](/api/options).'),
+  );
   git('add', '-A');
   git('commit', '-qm', 'agent-b: api/options');
   git('checkout', '-q', 'main');

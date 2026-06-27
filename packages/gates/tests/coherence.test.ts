@@ -156,7 +156,9 @@ describe('merge-time coherence gate', () => {
     });
     const b = corpus('feat-b', { index: page('Home', 'Removed the doc link.') });
     const result = runCoherenceGate([a, b], { base, today: TODAY });
-    const conflict = result.diagnostics.find((d) => d.rule === 'slot-collision' && d.path === 'doc');
+    const conflict = result.diagnostics.find(
+      (d) => d.rule === 'slot-collision' && d.path === 'doc',
+    );
     expect(conflict?.message).toMatch(/edit\/delete/);
   });
 

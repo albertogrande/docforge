@@ -91,8 +91,9 @@ describe('producer coherence helpers (real git)', () => {
       (await listDraftBranches(repo)).map((b) => loadCorpusAtRef(repo, b)),
     );
     const result = runCoherenceGate(corpora, { base });
-    expect(result.diagnostics.some((d) => d.rule === 'slot-collision' && d.path === 'api/options'))
-      .toBe(true);
+    expect(
+      result.diagnostics.some((d) => d.rule === 'slot-collision' && d.path === 'api/options'),
+    ).toBe(true);
     expect(result.ok).toBe(false);
   });
 });

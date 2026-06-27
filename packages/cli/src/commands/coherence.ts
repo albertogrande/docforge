@@ -60,7 +60,9 @@ export const coherenceCommand = defineCommand({
       const baseRef = args.base ? String(args.base) : 'main';
       base = await loadCorpusAtRef(rootDir, baseRef);
       corpora = await Promise.all(branches.map((b) => loadCorpusAtRef(rootDir, b)));
-      out(`Checking ${branches.length} draft branch(es) against ${baseRef}: ${branches.join(', ')}`);
+      out(
+        `Checking ${branches.length} draft branch(es) against ${baseRef}: ${branches.join(', ')}`,
+      );
     }
 
     if (corpora.length < 2 && !base) {

@@ -42,7 +42,8 @@ export interface Diff3Result {
   lines: string[];
 }
 
-const eq = (a: string[], b: string[]): boolean => a.length === b.length && a.every((l, i) => l === b[i]);
+const eq = (a: string[], b: string[]): boolean =>
+  a.length === b.length && a.every((l, i) => l === b[i]);
 
 /**
  * Three-way merge of `a` and `b` against common ancestor `o`. Anchors are lines
@@ -68,9 +69,12 @@ export function diff3Merge(o: string[], a: string[], b: string[]): Diff3Result {
     const oc = o.slice(oPrev, oEnd);
     const ac = a.slice(aPrev, aEnd);
     const bc = b.slice(bPrev, bEnd);
-    if (eq(ac, oc)) out.push(...bc); // only B changed (or nobody)
-    else if (eq(bc, oc)) out.push(...ac); // only A changed
-    else if (eq(ac, bc)) out.push(...ac); // both made the same change
+    if (eq(ac, oc))
+      out.push(...bc); // only B changed (or nobody)
+    else if (eq(bc, oc))
+      out.push(...ac); // only A changed
+    else if (eq(ac, bc))
+      out.push(...ac); // both made the same change
     else {
       clean = false; // overlapping, divergent change
       out.push(...ac, ...bc); // keep both sides' content for the (now-broken) merged view

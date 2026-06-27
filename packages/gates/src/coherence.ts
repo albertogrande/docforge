@@ -227,7 +227,7 @@ export function runCoherenceGate(
       severity: 'error',
       path: c.path,
       message:
-        `authored on multiple branches without a shared lease ` +
+        'authored on multiple branches without a shared lease ' +
         `(${c.branches.join(', ')}) — ${c.kind} conflict`,
     });
   }
