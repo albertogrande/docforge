@@ -50,7 +50,11 @@
     "SessionStart": [
       {
         "hooks": [
-          { "type": "command", "command": "node .claude/hooks/session-bootstrap.mjs", "timeout": 600 }
+          {
+            "type": "command",
+            "command": "node .claude/hooks/session-bootstrap.mjs",
+            "timeout": 600
+          }
         ]
       }
     ]

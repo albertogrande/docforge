@@ -1,3 +1,4 @@
+import { execSync } from 'node:child_process';
 // SPDX-License-Identifier: Apache-2.0
 //
 // SessionStart hook — make `nema check` usable in fresh sessions (e.g. Claude Code on the
@@ -8,7 +9,6 @@
 // artifacts already exist (so warm repos start instantly). Anything printed to stdout is
 // added to the session context. Wired via .claude/settings.json (SessionStart).
 import { existsSync } from 'node:fs';
-import { execSync } from 'node:child_process';
 
 function run(cmd) {
   try {
