@@ -15,7 +15,7 @@
     "@getnema/adapter-fumadocs": "workspace:*",
     "@getnema/core": "workspace:*",
     "@getnema/schema": "workspace:*",
-    "fumadocs-core": "^15.8.5",
+    "fumadocs-core": "^16.10.6",
     "fumadocs-ui": "^15.8.5",
     "marked": "^14.1.4",
     "next": "^15.1.3",
