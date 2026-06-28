@@ -17,7 +17,7 @@
     "@getnema/schema": "workspace:*",
     "fumadocs-core": "^15.8.5",
     "fumadocs-ui": "^15.8.5",
-    "marked": "^14.1.4",
+    "marked": "^18.0.5",
     "next": "^15.1.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
