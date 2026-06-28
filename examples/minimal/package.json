@@ -10,6 +10,6 @@
   },
   "devDependencies": {
     "@getnema/gates": "workspace:*",
-    "vitest": "^2.1.8"
+    "vitest": "^4.1.9"
   }
 }
