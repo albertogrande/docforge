@@ -7,5 +7,6 @@ export * from './nav.js';
 export * from './provenance-view.js';
 export * from './render.js';
 export * from './search.js';
+export * from './similarity.js';
 export * from './source.js';
 export * from './types.js';

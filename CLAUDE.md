@@ -48,6 +48,10 @@ The `provenance-consistency` gate checks: `reviewed ⇒ reviewed_by + a reviewed
   footnotes.
 - **Links**: internal links and `#anchors` must resolve.
 - **Reachability**: non-root pages must be linked from somewhere (no orphans).
+- **Near-duplicate**: before drafting a new page, check what already covers the topic with
+  `nema similar <path>` / `nema similar --query "<text>"` (or the `find_similar` MCP tool). If a
+  strong match exists, **update that page** instead of writing a duplicate — the `near-duplicate`
+  gate **warns** (never fails) when two pages are too similar.
 - **Code-drift**: a page may bind to the source it documents via a frontmatter `code:` block. When
   that code's public surface moves past the page's reviewed baseline, the `code-drift` gate
   **warns** (never fails) and `nema drift` lists the stale pages. You may add/refresh bindings on a

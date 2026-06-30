@@ -191,6 +191,22 @@ export const RULE_CATALOG: Record<string, RuleDoc> = {
       'baseline — agents never stamp a reviewed baseline themselves. Seed/refresh a baseline on a draft ' +
       'with `nema bind <path> <source>`.',
   },
+  'near-duplicate': {
+    id: 'near-duplicate',
+    title: 'Pages are not near-duplicates',
+    summary:
+      'Two pages share so much distinctive vocabulary that one looks like a duplicate of the other.',
+    hint: 'Update the existing page instead, or differentiate this one (narrow its scope / retitle).',
+    details:
+      'Nema scores every pair of pages by TF-IDF cosine similarity — how much rare, topic-defining ' +
+      'vocabulary they share, ignoring common filler. A pair above the threshold is flagged: it is the ' +
+      'fingerprint of an agent re-documenting a topic that already has a page instead of updating it.\n\n' +
+      'This is a **warning**, not an error — a reference page and its tutorial can legitimately overlap. ' +
+      'Fix: if the new page duplicates an existing one, fold your changes into that page and drop the ' +
+      'duplicate; if the overlap is genuine but the pages serve different purposes, sharpen the scope or ' +
+      'title so each stands on its own. Before drafting, run `nema similar <path>` (or the `find_similar` ' +
+      'MCP tool) to see what already covers your topic.',
+  },
   'slot-collision': {
     id: 'slot-collision',
     title: 'No two branches author the same page',

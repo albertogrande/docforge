@@ -84,6 +84,7 @@ nema prov /path/to/your-docs --status reviewed         # the provenance chain, p
 nema prov /path/to/your-docs --filter authored_by=ai   # everything an agent wrote
 nema coherence                                         # multi-agent: do the open draft branches merge cleanly?
 nema drift /path/to/your-docs                          # which pages fell behind the code they document?
+nema similar <page> /path/to/your-docs                 # what existing pages does this duplicate?
 ```
 
 Tracking code with your docs? `nema bind <page> <source>` binds a page to the source it documents
