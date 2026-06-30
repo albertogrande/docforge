@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { dirname, isAbsolute, join, relative } from 'node:path';
+import { type RepoExport, extractExports, fingerprintBinding } from '@getnema/drift';
 import { composeContent, recordTransition, seedProvenance } from '@getnema/provenance';
-import type { AuthoredBy, ModelInfo, Source } from '@getnema/schema';
+import type { AuthoredBy, CodeBinding, ModelInfo, Source } from '@getnema/schema';
+
+export type { RepoExport };
 
 /**
  * `nema generate` — lay the rails for "docs from your code". This module is a
@@ -13,12 +16,6 @@ import type { AuthoredBy, ModelInfo, Source } from '@getnema/schema';
  * real source files. It never writes prose: the explanatory text is left to the
  * user's own agent, which fills the skeleton through the existing draft loop.
  */
-
-/** A single exported symbol discovered in the entry file. */
-export interface RepoExport {
-  name: string;
-  kind: string;
-}
 
 /** The facts read out of a source repo — the "context bundle", inline for now. */
 export interface IngestedRepo {
@@ -55,33 +52,6 @@ function readmeIntro(markdown: string): string | undefined {
     return block.replace(/\s+/g, ' ').trim();
   }
   return undefined;
-}
-
-/** Extract exported symbol names from TS/JS source via lightweight pattern match. */
-function extractExports(source: string): RepoExport[] {
-  const found = new Map<string, string>();
-
-  // `export const|function|class|type|interface|enum Name`
-  const declRe =
-    /export\s+(?:declare\s+)?(?:default\s+)?(const|let|var|function|class|type|interface|enum)\s+([A-Za-z_$][\w$]*)/g;
-  for (const m of source.matchAll(declRe)) {
-    const kind = m[1] === 'let' || m[1] === 'var' ? 'const' : m[1]!;
-    found.set(m[2]!, kind === 'function' ? 'function' : kind);
-  }
-
-  // `export { A, B as C, type D }`
-  const listRe = /export\s*(?:type\s*)?\{([^}]*)\}/g;
-  for (const m of source.matchAll(listRe)) {
-    for (const part of m[1]!.split(',')) {
-      const token = part.trim();
-      if (!token) continue;
-      const name = (token.split(/\s+as\s+/).pop() ?? token).replace(/^type\s+/, '').trim();
-      if (name === 'default') continue; // a default re-export has no useful symbol name
-      if (/^[A-Za-z_$][\w$]*$/.test(name) && !found.has(name)) found.set(name, 'export');
-    }
-  }
-
-  return [...found].map(([name, kind]) => ({ name, kind }));
 }
 
 function firstExisting(repoDir: string, candidates: string[]): string | undefined {
@@ -222,6 +192,14 @@ export interface GenerateOptions {
   repoDir: string;
   /** Absolute path to the Nema content directory to write pages into. */
   contentRoot: string;
+  /**
+   * Absolute `codeRoot` the generated `code:` bindings resolve against. When set
+   * AND the source entry file lives under it (the monorepo / docs-beside-code
+   * case), the API reference page is bound to that file with a stamped baseline,
+   * so the generated docs are drift-tracked from birth. When the source is
+   * outside `codeRoot` (a cross-repo generate), no binding is emitted.
+   */
+  codeRoot?: string;
   /** Model recorded as the author. When omitted, pages are seeded `authored_by: human`. */
   model?: ModelInfo;
   /** Preview without writing files. */
@@ -251,6 +229,7 @@ export function generateCorpus(opts: GenerateOptions): GenerateResult {
   const authoredBy: AuthoredBy = opts.model ? 'ai' : 'human';
 
   const repo = ingestRepo(opts.repoDir);
+  const binding = entryBinding(repo, opts, now);
   const pages: GeneratedPage[] = [];
 
   for (const entry of planDocs(repo)) {
@@ -265,6 +244,9 @@ export function generateCorpus(opts: GenerateOptions): GenerateResult {
       title: entry.title,
       status: 'draft',
       diataxis: entry.diataxis,
+      // The API reference documents the entry file's exports — bind it so drift
+      // tracks the code from the moment the skeleton is written.
+      ...(binding && entry.path === 'api/reference' ? { code: [binding] } : {}),
       provenance: prov,
     };
 
@@ -277,4 +259,31 @@ export function generateCorpus(opts: GenerateOptions): GenerateResult {
   }
 
   return { repo, pages };
+}
+
+/**
+ * Build a drift binding for the API reference page from the source entry file —
+ * but only when a `codeRoot` is given and the entry file actually lives under it
+ * (so the stored `source` is a valid repo-relative path the gate can resolve).
+ * Returns `undefined` for a cross-repo generate, where binding into the source
+ * tree would just produce a dangling `missing-source` warning.
+ */
+function entryBinding(
+  repo: IngestedRepo,
+  opts: GenerateOptions,
+  now: Date,
+): CodeBinding | undefined {
+  if (!opts.codeRoot || !repo.entryFile || repo.exports.length === 0) return undefined;
+  const entryAbs = join(opts.repoDir, repo.entryFile);
+  const source = relative(opts.codeRoot, entryAbs);
+  if (source.startsWith('..') || isAbsolute(source)) return undefined;
+
+  const fp = fingerprintBinding({ id: 'cb-exports', source }, opts.codeRoot);
+  if (fp.missing || fp.fingerprint == null) return undefined;
+  return {
+    id: 'cb-exports',
+    source,
+    fingerprint: fp.fingerprint,
+    fingerprinted_at: now.toISOString().slice(0, 10),
+  };
 }
