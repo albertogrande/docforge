@@ -5,7 +5,10 @@ import {
   type Page,
   type ProvenanceView,
   type SearchHit,
+  type SimilarPage,
   createContentSource,
+  findSimilar,
+  findSimilarToText,
   provenanceView,
   resolveConfig,
 } from '@getnema/core';
@@ -149,6 +152,24 @@ export class NemaTools {
   async drift(): Promise<DriftReport> {
     const source = await this.source();
     return detectDrift(source.pages, source.config.codeRoot);
+  }
+
+  /**
+   * Pages similar to an existing page or to free text — the dedup check an agent
+   * runs *before* drafting, so it updates the page that already covers a topic
+   * instead of writing a near-duplicate. Read-only.
+   */
+  async findSimilar(input: {
+    path?: string;
+    text?: string;
+    limit?: number;
+    minScore?: number;
+  }): Promise<SimilarPage[]> {
+    const source = await this.source();
+    const opts = { limit: input.limit ?? 5, minScore: input.minScore ?? 0 };
+    if (input.text) return findSimilarToText(source.pages, { body: input.text }, opts);
+    if (input.path) return findSimilar(source.pages, input.path, opts);
+    return [];
   }
 
   /**

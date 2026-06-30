@@ -18,6 +18,7 @@ import { migrateCommand } from './commands/migrate.js';
 import { openPrCommand } from './commands/open-pr.js';
 import { provCommand } from './commands/prov.js';
 import { releaseCommand } from './commands/release.js';
+import { similarCommand } from './commands/similar.js';
 
 export const main = defineCommand({
   meta: {
@@ -42,6 +43,7 @@ export const main = defineCommand({
     audit: auditCommand,
     bind: bindCommand,
     drift: driftCommand,
+    similar: similarCommand,
     mcp: mcpCommand,
   },
 });

@@ -9,6 +9,7 @@ import { footnoteRules } from './rules/footnotes.js';
 import { freshnessRules } from './rules/freshness.js';
 import { frontmatterRules } from './rules/frontmatter.js';
 import { linkRules } from './rules/links.js';
+import { nearDuplicateRules } from './rules/near-duplicate.js';
 import { provenanceRules } from './rules/provenance.js';
 import { reachabilityRules } from './rules/reachability.js';
 import type { Diagnostic, GateContext, GateResult, Rule } from './types.js';
@@ -23,6 +24,7 @@ export const ALL_RULES: Rule[] = [
   provenanceRules,
   draftNotReviewedRules,
   codeDriftRules,
+  nearDuplicateRules,
 ];
 
 export interface GateOptions {

@@ -13,6 +13,7 @@ export * from './rules/footnotes.js';
 export * from './rules/frontmatter.js';
 export * from './rules/freshness.js';
 export * from './rules/links.js';
+export * from './rules/near-duplicate.js';
 export * from './rules/provenance.js';
 export * from './rules/reachability.js';
 export * from './types.js';

@@ -100,6 +100,16 @@ const driftReportShape = {
   findings: z.array(driftFindingShape),
 };
 
+const similarHitShape = z.object({
+  path: z.string(),
+  title: z.string(),
+  score: z.number(),
+});
+
+const similarResultShape = {
+  hits: z.array(similarHitShape),
+};
+
 /**
  * The corpus read tools: list / get / provenance / search / check. These need
  * only a filesystem content source — no git or `gh` — so they are safe to expose
@@ -204,6 +214,35 @@ function registerReadTools(server: McpServer, tools: NemaTools): void {
       return {
         content: [{ type: 'text' as const, text: [summary, ...lines].join('\n') }],
         structuredContent: report,
+      };
+    },
+  );
+
+  server.registerTool(
+    'find_similar',
+    {
+      title: 'Find similar pages',
+      description:
+        'Before drafting a NEW page, check whether the corpus already covers the topic. Pass `text` ' +
+        '(what you are about to write) or `path` (an existing page) and get the most similar pages by ' +
+        'TF-IDF cosine. If a strong match comes back, update that page instead of writing a duplicate — ' +
+        'the near-duplicate gate warns when you do not. Returns ranked hits as structuredContent.',
+      inputSchema: {
+        text: z.string().optional().describe('Free text (e.g. the draft you intend to write)'),
+        path: z.string().optional().describe('An existing page path to compare instead of text'),
+        limit: z.number().int().min(1).max(25).optional().describe('Max results (default 5)'),
+      },
+      outputSchema: similarResultShape,
+    },
+    async ({ text, path, limit }) => {
+      const hits = await tools.findSimilar({ text, path, limit });
+      const lines =
+        hits.length === 0
+          ? ['No similar pages found.']
+          : hits.map((h) => `  ${h.score.toFixed(2)}  ${h.path} — ${h.title}`);
+      return {
+        content: [{ type: 'text' as const, text: lines.join('\n') }],
+        structuredContent: { hits },
       };
     },
   );

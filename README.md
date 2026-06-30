@@ -261,6 +261,23 @@ the `drift` MCP tool returns it as structured data an agent can act on. A human 
 the baseline, exactly as it stamps the freshness dates — agents never stamp it themselves. See
 [`examples/drift`](examples/drift) or run `pnpm demo:drift` for the self-verifying walkthrough.
 
+## Writes a page that *fits* (near-duplicate detection)
+
+Point a fleet of agents at a corpus and the failure mode is duplication: an agent
+re-documents a topic that already has a page instead of updating it. Nema scores every page pair by
+**TF-IDF cosine similarity** — shared *distinctive* vocabulary, not filler — and the `near-duplicate`
+gate **warns** when two pages look like duplicates. Before drafting, an agent (or you) can ask what
+already covers the topic:
+
+```bash
+nema similar api/reference                       # pages most like an existing one
+nema similar --query "how to install the CLI"    # …or like text you're about to write
+```
+
+The `find_similar` MCP tool gives an agent the same check inline, so it updates the closest page
+instead of adding a near-duplicate. It's a **warning**, never a build break — a tutorial and its
+reference can legitimately overlap.
+
 ## Architecture
 
 A pnpm + Turborepo monorepo. The engine is **renderer-agnostic**: the core packages
