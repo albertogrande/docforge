@@ -34,15 +34,45 @@ const EXPORT_DECL_RE =
 const DECL_RE =
   /(?:export\s+)?(?:declare\s+)?(?:default\s+)?(const|let|var|function|class|type|interface|enum)\s+([A-Za-z_$][\w$]*)/g;
 
-/**
- * `export { A, B as C, type D }` — the export-list form. The `type` keyword and
- * the whitespace before `{` are matched without two competing `\s` quantifiers
- * (`(?:\s+type)?` keeps its whitespace behind the literal `type`), so the
- * pattern stays linear over arbitrary input.
- */
-const EXPORT_LIST_RE = /export(?:\s+type)?\s*\{([^}]*)\}/g;
-
 const IDENT_RE = /^[A-Za-z_$][\w$]*$/;
+
+/** True for a JS identifier character. Single-char test ⇒ constant time. */
+function isWordChar(ch: string | undefined): boolean {
+  return ch !== undefined && /[\w$]/.test(ch);
+}
+
+/** First non-whitespace index at or after `i`. Single-char tests ⇒ linear. */
+function skipSpaces(s: string, i: number): number {
+  let k = i;
+  while (k < s.length && /\s/.test(s[k]!)) k++;
+  return k;
+}
+
+/**
+ * The inner text of each `export { … }` / `export type { … }` list, located by a
+ * linear character scan rather than a backtracking regex (the `export … { … }`
+ * regex was a polynomial-ReDoS hazard on untrusted source).
+ */
+function exportListBodies(source: string): string[] {
+  const bodies: string[] = [];
+  let i = source.indexOf('export');
+  while (i !== -1) {
+    let j = i + 6; // past "export"
+    // `export` must be a standalone word (not `reexport`, `exports`, …).
+    if (!isWordChar(source[j]) && (i === 0 || !isWordChar(source[i - 1]))) {
+      j = skipSpaces(source, j);
+      if (source.startsWith('type', j) && !isWordChar(source[j + 4])) {
+        j = skipSpaces(source, j + 4);
+      }
+      if (source[j] === '{') {
+        const close = source.indexOf('}', j + 1);
+        if (close !== -1) bodies.push(source.slice(j + 1, close));
+      }
+    }
+    i = source.indexOf('export', i + 6);
+  }
+  return bodies;
+}
 
 /** Extract exported symbol names from TS/JS source via lightweight pattern match. */
 export function extractExports(source: string): RepoExport[] {
@@ -53,8 +83,8 @@ export function extractExports(source: string): RepoExport[] {
     found.set(m[2]!, kind === 'function' ? 'function' : kind);
   }
 
-  for (const m of source.matchAll(EXPORT_LIST_RE)) {
-    for (const part of m[1]!.split(',')) {
+  for (const body of exportListBodies(source)) {
+    for (const part of body.split(',')) {
       const token = part.trim();
       if (!token) continue;
       // Split on the `as` rename via a zero-width word boundary, not `\s+as\s+`
