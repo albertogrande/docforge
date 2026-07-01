@@ -56,6 +56,9 @@ signed off — all rendered through [Fumadocs](https://fumadocs.dev), on infrast
   recorded as structured, queryable data, not free-text footnotes.
 - 🧵 **Multi-agent authoring without clobbering** — point a fleet of agents at one corpus; slot leasing
   and a merge-time coherence gate keep them from overwriting each other's pages.
+- 📥 **Docs from your code** — `nema generate <repo>` reads a codebase's public API and scaffolds
+  seeded `draft` pages (export tables, install snippet — a factual skeleton) for your agent to flesh
+  out. It never invents prose; the explanation is the agent's job.
 - ✅ **Gate-checked before the PR** — `nema check` catches broken links, orphans, stale frontmatter, and
   self-promotion, with a fix hint per failure — the same report for a human and for an agent in a loop.
 - 🩺 **Docs that stay honest about the code** — bind a page to the source it documents, and `nema drift`
@@ -144,9 +147,9 @@ promote a page to `reviewed`. Only your PR approval can. The rules every agent m
 
 ## Status
 
-**v0.3 alpha.** The producer loop runs end to end and renders; multi-agent authoring (slot leasing +
-merge-time coherence) ships and is exercised in CI. The engine is green (tests, lint, typecheck,
-build). Expect breaking changes before 1.0.
+**v0.4 alpha.** The producer loop runs end to end and renders; multi-agent authoring (slot leasing +
+merge-time coherence) and docs-from-code (`nema generate`) ship and are exercised in CI. The engine
+is green (tests, lint, typecheck, build). Expect breaking changes before 1.0.
 
 ## Contributing
 
