@@ -2,9 +2,9 @@
 import { existsSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import {
-  type LabeledCorpus,
   formatGateResult,
   formatGateResultJson,
+  type LabeledCorpus,
   runCoherenceGate,
 } from '@getnema/gates';
 import { listDraftBranches, loadCorpusAtRef, loadCorpusFromDir } from '@getnema/producer';

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
-import { type Diagnostic, checkContent } from '@getnema/gates';
+import { checkContent, type Diagnostic } from '@getnema/gates';
 import {
   composeContent,
   readProvenance,
@@ -11,8 +11,8 @@ import {
 import type { AuthoredBy, ModelInfo, Source } from '@getnema/schema';
 import type { NemaHost, PullRequestRef } from './host.js';
 import { draftBranchName } from './slug.js';
-import { PROVENANCE_TRAILER_KEY, formatProvenanceTrailer } from './trailer.js';
-import { type ReviewerRef, addDays, flipToReviewed, toISODate } from './transitions.js';
+import { formatProvenanceTrailer, PROVENANCE_TRAILER_KEY } from './trailer.js';
+import { addDays, flipToReviewed, type ReviewerRef, toISODate } from './transitions.js';
 
 export interface ProducerConfig {
   rootDir: string;

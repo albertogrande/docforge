@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 import { writeFileSync } from 'node:fs';
-import { type Page, loadPages } from '@getnema/core';
+import { loadPages, type Page } from '@getnema/core';
 import { composeContent, recordTransition, seedProvenance } from '@getnema/provenance';
-import { type LifecycleState, isLifecycleState } from '@getnema/schema';
+import { isLifecycleState, type LifecycleState } from '@getnema/schema';
 import { run } from './exec.js';
 import { addDays, toISODate } from './transitions.js';
 

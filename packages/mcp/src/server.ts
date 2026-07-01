@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 import { createHash, timingSafeEqual } from 'node:crypto';
-import { type Server, createServer } from 'node:http';
-import { type GateResult, formatGateResult, gateReport } from '@getnema/gates';
+import { createServer, type Server } from 'node:http';
+import { formatGateResult, type GateResult, gateReport } from '@getnema/gates';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';

@@ -2,30 +2,30 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import {
   type ContentSource,
+  createContentSource,
   type Page,
   type ProvenanceView,
-  type SearchHit,
-  createContentSource,
   provenanceView,
   resolveConfig,
+  type SearchHit,
 } from '@getnema/core';
-import { type GateResult, checkContent, runCoherenceGate } from '@getnema/gates';
+import { checkContent, type GateResult, runCoherenceGate } from '@getnema/gates';
 import {
   type AcquireLeaseResult,
+  acquireLease,
   type DraftResult,
   GitHubHost,
   type Lease,
+  listDraftBranches,
+  loadCorpusAtRef,
   type NemaHost,
   ProducerEngine,
   type ProposeResult,
-  acquireLease,
-  listDraftBranches,
-  loadCorpusAtRef,
   precheckProposeCoherence,
   readLease,
   releaseLease,
 } from '@getnema/producer';
-import { MATTER_OPTIONS, composeContent } from '@getnema/provenance';
+import { composeContent, MATTER_OPTIONS } from '@getnema/provenance';
 import type { ModelInfo, Source } from '@getnema/schema';
 import matter from 'gray-matter';
 

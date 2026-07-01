@@ -8,12 +8,12 @@ import { afterAll, describe, expect, it } from 'vitest';
 import {
   type CommitOptions,
   type CreatePullRequestInput,
+  draftBranchName,
+  flipToReviewed,
   type MergeOptions,
   type NemaHost,
   ProducerEngine,
   type PullRequestRef,
-  draftBranchName,
-  flipToReviewed,
   slugify,
 } from '../src/index.js';
 

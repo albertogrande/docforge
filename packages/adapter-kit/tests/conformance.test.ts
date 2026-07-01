@@ -2,17 +2,17 @@
 import { fileURLToPath } from 'node:url';
 import {
   type ContentSource,
+  contentSourceFromConfig,
   type NavNode,
   type Page,
   type ResolvedConfig,
-  contentSourceFromConfig,
 } from '@getnema/core';
 import { describe, expect, it } from 'vitest';
 import {
-  type NavRoute,
-  type RendererAdapter,
   assertAdapterConformance,
+  type NavRoute,
   noInlineEnums,
+  type RendererAdapter,
   runAdapterConformance,
 } from '../src/index.js';
 

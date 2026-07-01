@@ -2,7 +2,7 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { type ContentSource, type ResolvedConfig, contentSourceFromConfig } from '@getnema/core';
+import { type ContentSource, contentSourceFromConfig, type ResolvedConfig } from '@getnema/core';
 import { CONTENT_MODEL, type ContentModel } from '@getnema/schema';
 import { afterAll, describe, expect, it } from 'vitest';
 import { createGateContext, runGates } from '../src/index.js';

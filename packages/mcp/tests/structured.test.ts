@@ -12,7 +12,7 @@ import type {
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { NemaTools, createNemaMcpServer, formatDraftResult } from '../src/index.js';
+import { createNemaMcpServer, formatDraftResult, NemaTools } from '../src/index.js';
 
 const CLOCK = () => new Date('2026-06-25T12:00:00Z');
 

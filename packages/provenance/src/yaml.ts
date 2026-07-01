@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-import { JSON_SCHEMA, dump, load } from 'js-yaml';
+import { dump, JSON_SCHEMA, load } from 'js-yaml';
 
 /** gray-matter options that keep frontmatter values primitive (dates stay strings). */
 export const MATTER_OPTIONS = {
