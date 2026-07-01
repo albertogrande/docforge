@@ -2,7 +2,7 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
-import { type ResolvedConfig, loadPages } from '@getnema/core';
+import { loadPages, type ResolvedConfig } from '@getnema/core';
 import { afterEach, describe, expect, it } from 'vitest';
 import { type LabeledCorpus, mergeCorpora, runCoherenceGate } from '../src/index.js';
 

@@ -2,10 +2,10 @@
 import { readFileSync } from 'node:fs';
 import { createContentSource, resolveConfig } from '@getnema/core';
 import {
+  formatProvenanceTrailer,
   GitHubHost,
   PROVENANCE_TRAILER_KEY,
   ProducerEngine,
-  formatProvenanceTrailer,
   run,
 } from '@getnema/producer';
 import { readProvenance } from '@getnema/provenance';

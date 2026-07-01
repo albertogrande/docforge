@@ -14,7 +14,15 @@
   "bugs": {
     "url": "https://github.com/albertogrande/nema/issues"
   },
-  "keywords": ["documentation", "docs-as-code", "ai", "agents", "provenance", "fumadocs", "react"],
+  "keywords": [
+    "documentation",
+    "docs-as-code",
+    "ai",
+    "agents",
+    "provenance",
+    "fumadocs",
+    "react"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -27,7 +35,9 @@
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",
