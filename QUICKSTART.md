@@ -137,6 +137,11 @@ cd my-docs && npm install && npm run dev   # → http://localhost:3000 — a bad
 Want docs-only (no renderer — bring your own)? Drop `--app` (`npx create-nema my-docs`) for a minimal
 repo that ends at `nema check`. Either way, jump to step 4 and let an agent draft your first pages.
 
+**Documenting a codebase?** `nema generate <path-to-code>` reads a repo's public API and scaffolds
+seeded `draft` pages — export tables, an install snippet, a factual skeleton — for your agent to
+flesh out (it never invents prose). Pass `--dry-run` to preview. From there it's the same loop:
+`nema check`, then draft → PR → approve.
+
 ---
 
 See the [README](README.md) for architecture and the [build plan](sharded-roaming-valiant.md) for
