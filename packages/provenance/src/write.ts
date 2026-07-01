@@ -2,7 +2,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import type { Provenance } from '@getnema/schema';
 import matter from 'gray-matter';
-import { MATTER_OPTIONS, dumpFrontmatter } from './yaml.js';
+import { dumpFrontmatter, MATTER_OPTIONS } from './yaml.js';
 
 /**
  * Return new file content with the `provenance` block set in frontmatter,

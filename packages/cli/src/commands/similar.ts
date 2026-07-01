@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-import { createContentSource } from '@getnema/core';
-import { findSimilar, findSimilarToText } from '@getnema/core';
+import { createContentSource, findSimilar, findSimilarToText } from '@getnema/core';
 import { defineCommand } from 'citty';
 import { errOut, out } from '../util.js';
 

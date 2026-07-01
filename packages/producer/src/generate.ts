@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, isAbsolute, join, relative } from 'node:path';
-import { type RepoExport, extractExports, fingerprintBinding } from '@getnema/drift';
+import { extractExports, fingerprintBinding, type RepoExport } from '@getnema/drift';
 import { composeContent, recordTransition, seedProvenance } from '@getnema/provenance';
 import type { AuthoredBy, CodeBinding, ModelInfo, Source } from '@getnema/schema';
 

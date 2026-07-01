@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 import { existsSync, statSync } from 'node:fs';
-import { type Page, createContentSource } from '@getnema/core';
+import { createContentSource, type Page } from '@getnema/core';
 import { defineCommand } from 'citty';
 import { errOut, out } from '../util.js';
 

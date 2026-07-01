@@ -2,12 +2,12 @@
 import { describe, expect, it } from 'vitest';
 import {
   AGENT_ALLOWED_TRANSITIONS,
-  FrontmatterSchema,
-  ProvenanceSchema,
   buildFrontmatterSchema,
+  FrontmatterSchema,
   isAgentAllowedTransition,
   isValidISODate,
   isValidTransition,
+  ProvenanceSchema,
 } from '../src/index.js';
 
 describe('isValidISODate', () => {

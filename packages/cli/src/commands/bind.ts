@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { resolveConfig } from '@getnema/core';
 import { fingerprintBinding, readCodeBindings } from '@getnema/drift';
-import { MATTER_OPTIONS, composeContent } from '@getnema/provenance';
+import { composeContent, MATTER_OPTIONS } from '@getnema/provenance';
 import { FINGERPRINT_STRATEGIES, type FingerprintStrategy } from '@getnema/schema';
 import { defineCommand } from 'citty';
 import matter from 'gray-matter';

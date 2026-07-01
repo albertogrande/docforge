@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 import { readCodeBindings, stampBindings } from '@getnema/drift';
 import {
-  MATTER_OPTIONS,
   composeContent,
+  MATTER_OPTIONS,
   readProvenanceFromFrontmatter,
   recordTransition,
   seedProvenance,

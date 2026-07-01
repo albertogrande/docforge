@@ -4,7 +4,7 @@ import { resolveConfig } from './config.js';
 import { findPage, loadPages, walkMarkdown } from './load.js';
 import { buildNav } from './nav.js';
 import { renderMarkdown } from './render.js';
-import { type SearchIndex, buildSearchIndex, searchIndex } from './search.js';
+import { buildSearchIndex, type SearchIndex, searchIndex } from './search.js';
 import type { ContentSource, NemaConfig, ResolvedConfig } from './types.js';
 
 /** A cheap corpus fingerprint — page count + total size + newest mtime. */

@@ -2,10 +2,10 @@
 import { describe, expect, it } from 'vitest';
 import {
   GitLabHost,
-  LocalGitHost,
   ghMergeArgs,
   glabMergeArgs,
   glabMrCreateArgs,
+  LocalGitHost,
 } from '../src/index.js';
 
 describe('ghMergeArgs', () => {

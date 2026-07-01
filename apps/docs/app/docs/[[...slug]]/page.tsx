@@ -1,4 +1,3 @@
-import { getSource, slugToPath } from '@/lib/source';
 // SPDX-License-Identifier: Apache-2.0
 import { ProvenanceBadge } from '@getnema/adapter-fumadocs';
 import { getTableOfContents } from 'fumadocs-core/server';
@@ -6,6 +5,7 @@ import { DocsBody, DocsPage } from 'fumadocs-ui/page';
 import { marked } from 'marked';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { getSource, slugToPath } from '@/lib/source';
 
 export async function generateStaticParams() {
   const source = await getSource();

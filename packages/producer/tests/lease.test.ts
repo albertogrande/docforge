@@ -3,7 +3,7 @@ import { existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { LEASE_DIR, acquireLease, readLease, releaseLease } from '../src/lease.js';
+import { acquireLease, LEASE_DIR, readLease, releaseLease } from '../src/lease.js';
 
 let root: string;
 
